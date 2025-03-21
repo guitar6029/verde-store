@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from '@/lib/serverActions';
+import { createClient } from "@/lib/serverActions";
 
 /**
  * Fetches all plants from the database.
@@ -8,12 +8,11 @@ import { createClient } from '@/lib/serverActions';
  * @returns {data: Plant[], error: { message: string, status: number}}
  */
 
-export async function getPlants(){
-    const supabase = await createClient();
-    const { data, error } = await supabase.from("products").select();
-    return { data, error };
+export async function getPlants() {
+  const supabase = await createClient();
+  const { data, error } = await supabase.from("products").select();
+  return { data, error };
 }
-
 
 /**
  * Fetches a single plant from the database, given its id.
@@ -23,7 +22,11 @@ export async function getPlants(){
  */
 export async function getPlant(id: number) {
   const supabase = await createClient();
-  const { data, error } = await supabase.from("products").select().eq("id", id).single();
-  console.log("data : ", data);
+  const { data, error } = await supabase
+    .from("products")
+    .select()
+    .eq("id", id)
+    .single();
+
   return { data, error };
 }
