@@ -1,7 +1,8 @@
-import { getPlant } from "@/lib/db/plants";
+import { getPlant, getRandomPlants } from "@/lib/db/plants";
 import type { Plant } from "@/types/CardProps";
 import Image from "next/image";
 import { ShoppingBasket, Heart } from "lucide-react";
+import MiniCard from "@/components/Card/MiniCard";
 export default async function Plant({
   params,
 }: {
@@ -10,6 +11,11 @@ export default async function Plant({
   const resolvedParams = await params;
 
   const { data: plant, error } = await getPlant(Number(resolvedParams.id));
+
+  //for the you may also like ection
+  const { data: plants, error: randomPlantsError } = await getRandomPlants(
+    Number(resolvedParams.id)
+  );
 
   if (error) {
     return <div>Error fetching plant: {error.message}</div>;
@@ -58,6 +64,21 @@ export default async function Plant({
         <div className="flex flex-row items-center justify-center p-5 rounded-full bg-red-100 hover:bg-red-200 transition duration-300 ease-in group">
           <Heart className="w-5 h-5 group-hover:text-red-600 group-hover:scale-110" />
         </div>
+      </div>
+
+      {/* You might like section */}
+      <div className="flex flex-col gap-4 p-10">
+        <h1 className="text-2xl font-semibold">You may also like</h1>
+        {randomPlantsError && (
+          <div>Error fetching random plants: {randomPlantsError.message}</div>
+        )}
+        {plants && (
+          <div className="flex flex-row items-center overflow-x-auto gap-4">
+            {plants.map((plant: Plant) => {
+              return <MiniCard key={plant.id} {...plant} />;
+            })}
+          </div>
+        )}
       </div>
     </div>
   );
