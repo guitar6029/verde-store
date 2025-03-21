@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Sidenav from "@/components/Sidenav/Sidenav";
+import { ToastContainer } from "react-toastify";
 
 export const metadata: Metadata = {
   title: "Verde",
@@ -20,8 +21,8 @@ export default function RootLayout({
         <Sidenav />
         <main className="flex-grow">
         {children}
-
         </main>
+        <ToastContainer />
       </body>
     </html>
   );
