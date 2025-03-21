@@ -1,4 +1,4 @@
-export type CardProps = {
+export type Plant = {
     id: number,
     image_url: string,
     name: string,

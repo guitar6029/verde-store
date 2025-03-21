@@ -1,8 +1,8 @@
-import type { CardProps } from "@/types/CardProps";
+import type { Plant } from "@/types/CardProps";
 import { ShoppingBasket, Heart } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-export default function Card(props: CardProps) {
+export default function Card(props: Plant) {
   return (
     <Link
       href={`/plants/${props.id}`}

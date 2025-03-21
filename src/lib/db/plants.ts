@@ -21,8 +21,9 @@ export async function getPlants(){
  * @param id The id of the plant to fetch.
  * @returns An object containing the plant data and an optional error.
  */
-export async function getPlant(id: string) {
+export async function getPlant(id: number) {
   const supabase = await createClient();
-  const { data, error } = await supabase.from("products").select().eq("id", id);
+  const { data, error } = await supabase.from("products").select().eq("id", id).single();
+  console.log("data : ", data);
   return { data, error };
 }

@@ -15,11 +15,11 @@ export default function Home() {
         className="object-contain  z-[1]"
       />
 
-      <div className="flex flex-col items-center z-[2] absolute">
-        <h1 className="text-7xl font-semibold">Verde</h1>
+      <div className="flex flex-col items-center z-[2] absolute bg-cyan-100 p-10 opacity-80 ">
+        <h1 className="text-7xl verde">Verde</h1>
         <span className="text-2xl">Green your world with Verde</span>
         <Link href={"/shop"}>
-        <span>Shop</span>
+          <span>Shop</span>
         </Link>
       </div>
     </div>
