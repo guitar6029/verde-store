@@ -10,7 +10,6 @@ html{
   overflow: hidden;
 }
 
-
 body {
   background: var(--background);
   color: var(--foreground);
@@ -20,4 +19,18 @@ body {
 main {
   overflow-y: auto;
   height: 100vh;
+}
+
+
+/* Define the custom font using @font-face */
+@font-face {
+  font-family: "verde";
+  src: url("/fonts/PumpkinPieLattesBold-WyGGz.ttf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Optional: Define the custom class using the custom font */
+.verde {
+  font-family: "verde", sans-serif;
 }
