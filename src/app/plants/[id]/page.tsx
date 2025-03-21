@@ -29,12 +29,12 @@ export default async function Plant({
             backgroundRepeat: "no-repeat", // Prevents tiling of the image
             opacity: "0.3",
             borderRadius: "10px",
-            zIndex: 1, // Z-index for background
+            zIndex: 2, // Z-index for background
           }}
         ></div>
 
         {/* Plant Name */}
-        <h1 className="absolute inset-0 flex items-center  text-[7.5rem] p-10  verde z-[2]">
+        <h1 className="absolute inset-0 flex items-center  text-[7.5rem] p-10  verde z-[3]">
           {plant?.name}
         </h1>
       </div>
