@@ -1,23 +1,11 @@
 // app/plants/page.tsx
 import { getPlants } from "@/lib/db/plants";
 import Card from "@/components/Card/Card";
-import {toast} from "react-toastify";
 
 export default async function Plants() {
   const { data: plants, error } = await getPlants();
 
   if (error) {
-    console.log("error) : ", error);
-    toast.error(error.message, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
     return <div>Error fetching plants: {error.message}</div>;
   }
 

@@ -15,14 +15,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className="antialiased flex flex-row"
-      >
+      <body className="antialiased flex flex-row">
         <Sidenav />
-        <main className="flex-grow">
-        {children}
-        </main>
-        <ToastContainer />
+        <main className="flex-grow">{children}</main>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick={false}
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+          
+        />
       </body>
     </html>
   );
