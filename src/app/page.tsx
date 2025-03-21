@@ -9,11 +9,10 @@ export default function Home() {
       <Image
         src={plantsImage}
         alt="Plants"
-        layout="responsive"
         quality={100}
-        width={800}
-        height={800}
-        className="object-contain z-[1]"
+        width={1000}
+        height={1000}
+        className="object-contain  z-[1]"
       />
 
       <div className="flex flex-col items-center z-[2] absolute">
