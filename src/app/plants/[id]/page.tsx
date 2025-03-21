@@ -46,7 +46,11 @@ export default async function Plant({
       </div>
 
       <div className="p-10 bg-red-50 w-fit text-2xl flex flex-col gap-4">
-        <h1 className="italic">Category | {plant?.category}</h1>
+        <div className="italic flex flex-row gap-2">
+          <h1 className="italic text-gray-400">Category /</h1>
+          <h1>{plant?.category}</h1>
+        </div>
+
         <p>{plant?.description}</p>
       </div>
       <Image
