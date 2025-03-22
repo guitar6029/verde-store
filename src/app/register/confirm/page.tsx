@@ -12,7 +12,7 @@ export default function ConfirmPage() {
             </div>
           </div>
 
-          <p className="text-2xl p-10">We send you a confirmation link</p>
+          <p className="text-2xl p-10">We sent you a confirmation link</p>
         </div>
       </div>
     </div>

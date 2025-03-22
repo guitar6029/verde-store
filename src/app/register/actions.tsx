@@ -1,5 +1,6 @@
 "use server";
 
+import { cookies } from 'next/headers';
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -43,6 +44,11 @@ export async function signup(formData: FormData) {
       return redirect("/login/error");
     }
   }
+
+  // // set cookies for user email,
+  // // just in case the email did not get sent
+  // const cookieStore = cookies();
+  // (await cookieStore).set("email", data.email, { maxAge: 60 * 15});
 
   // Revalidate path and redirect to home
   revalidatePath("/", "layout");
