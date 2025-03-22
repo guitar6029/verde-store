@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
+import HeaderWithImgBg from "@/components/SectionTitle/HeaderWithImgBg";
 
 export default async function Account() {
   const supabase = await createClient();
@@ -15,8 +16,8 @@ export default async function Account() {
   }
 
   return (
-    <div>
-      <h1>Accountt</h1>
+    <div className="relative min-h-screen flex flex-col gap-[3rem] p-20">
+      <HeaderWithImgBg title="Account" />
       <p>Hello {data.user.email}</p>
     </div>
   );

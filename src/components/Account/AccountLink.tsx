@@ -21,7 +21,6 @@ export default function AccountLink() {
       if (error) {
         console.error("Error fetching user:", error);
       } else {
-        console.log("User object:", data?.user);
         setUser(data?.user); // Set user state
       }
       setLoading(false); // Update loading state to false
