@@ -1,19 +1,27 @@
-import { type NextRequest } from 'next/server'
-import { updateSession } from '@/utils/supabase/middleware'
+import { NextRequest, NextResponse } from 'next/server';
+import { createClient } from '@/utils/supabase/client'; // Your supabase client
+import {Session} from '@supabase/supabase-js'
+interface SessionData {
+  user?: unknown; // Replace 'any' with the actual type of the user object
+  session: Session;
+}
 
 export async function middleware(request: NextRequest) {
-  return await updateSession(request)
+  const supabase = createClient();
+
+  // Check if the user is already logged in
+  const { data }: { data: SessionData } = await supabase.auth.getSession() as { data: SessionData };
+
+  // If the user is logged in and trying to access the /login page
+  if (data.user && request.nextUrl.pathname === '/login') {
+    // Redirect to the home page or dashboard if already logged in
+    return NextResponse.redirect(new URL('/', request.url));
+  }
+
+  // If the user is not logged in, allow the request to proceed
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * Feel free to modify this pattern to include more paths.
-     */
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
-  ],
-}
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)'],
+};

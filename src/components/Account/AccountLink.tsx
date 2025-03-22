@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
+import { SquareUserRound } from "lucide-react";
 
 export default function AccountLink() {
   const [user, setUser] = useState<unknown>(null);
@@ -63,9 +64,20 @@ export default function AccountLink() {
   }
 
   return (
-    <div className="flex flex-row items-center gap-2 w-[100px] justify-center group">
+    <div className="flex flex-row items-center gap-2 w-[100px] justify-center">
       {user ? (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-20">
+          <div className="flex flex-row items-center gap-2 w-[100px] justify-center group">
+            <Link
+              href={"/account"}
+              className="flex flex-row gap-2 items-center group-hover:text-green-400 transition duration-300 ease-in"
+            >
+              <SquareUserRound className="w-5 h-5" />
+              <span className="text-4xl hidden md:block">Account</span>
+            </Link>
+          </div>
+
+          {/* SquareUserRound */}
           <button
             onClick={handleSignOut}
             className="text-4xl group-hover:text-green-400 transition duration-300 ease-in"
