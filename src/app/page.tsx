@@ -18,7 +18,7 @@ export default function Home() {
       <div className="flex flex-col items-center z-[2] absolute bg-cyan-100 p-10 opacity-80 ">
         <h1 className="text-7xl verde">Verde</h1>
         <span className="text-2xl">Green your world with Verde</span>
-        <Link href={"/shop"}>
+        <Link href={"/plants"}>
           <span>Shop</span>
         </Link>
       </div>

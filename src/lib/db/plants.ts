@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/lib/serverActions";
+import { createClient } from "@/utils/supabase/server";
 
 /**
  * Fetches all plants from the database.
