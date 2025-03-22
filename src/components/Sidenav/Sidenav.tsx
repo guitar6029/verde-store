@@ -19,7 +19,7 @@ export default function Sidenav() {
           href={"/plants"}
           className="flex flex-row gap-2 items-center group-hover:text-green-400 transition duration-300 ease-in"
         >
-          <Sprout className="w-5 h-5" />
+          <Sprout size={30} />
           <span className="text-4xl hidden md:block">Plants</span>
         </Link>
       </div>
@@ -29,7 +29,7 @@ export default function Sidenav() {
           href={"/cart"}
           className="flex flex-row gap-2 items-center group-hover:text-green-400 transition duration-300 ease-in"
         >
-          <ShoppingCart className="w-5 h-5" />
+          <ShoppingCart size={30} />
           <span className="text-4xl hidden md:block">Cart</span>
         </Link>
       </div>

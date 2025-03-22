@@ -19,7 +19,6 @@ export default function AccountLink() {
     const fetchUser = async () => {
       const { data, error } = await supabase.auth.getUser();
       if (error) {
-        console.error("Error fetching user:", error);
       } else {
         setUser(data?.user); // Set user state
       }
@@ -50,9 +49,7 @@ export default function AccountLink() {
     const supabase = createClient();
     const { error } = await supabase.auth.signOut();
 
-    if (error) {
-      console.error("Error signing out:", error);
-    } else {
+    if (!error) {
       setUser(null); // Clear the user from state
       router.push("/"); // Optionally redirect to the homepage or login page
     }
@@ -71,7 +68,7 @@ export default function AccountLink() {
               href={"/account"}
               className="flex flex-row gap-2 items-center group-hover:text-green-400 transition duration-300 ease-in"
             >
-              <SquareUserRound className="w-5 h-5" />
+              <SquareUserRound size={30} />
               <span className="text-4xl hidden md:block">Account</span>
             </Link>
           </div>
