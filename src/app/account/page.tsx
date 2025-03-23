@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import HeaderWithImgBg from "@/components/SectionTitle/HeaderWithImgBg";
 import { getUser } from "./actions";
+import { getGreeting } from "@/utils/greeting";
 
 export default async function Account() {
   const supabase = await createClient();
@@ -30,7 +31,7 @@ export default async function Account() {
   return (
     <div className="relative min-h-screen flex flex-col gap-[3rem] p-20">
       <HeaderWithImgBg title="Account" />
-      <p>Hello {userData?.first_name}</p>
+      <h1 className="text-2xl">{getGreeting()}, {userData?.first_name}</h1>
     </div>
   );
 }

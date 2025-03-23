@@ -11,6 +11,8 @@
   "dependencies": {
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.49.1",
+    "@tanstack/react-query": "^5.69.0",
+    "es-toolkit": "^1.33.0",
     "lucide-react": "^0.483.0",
     "next": "15.2.3",
     "react": "^19.0.0",

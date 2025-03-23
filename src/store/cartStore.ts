@@ -1,27 +1,37 @@
-import { create} from "zustand";
-
-type CartItem = {
-    id: string;
-    name: string;
-    price: number;
-    image: string;
-    quantity: number;
-}
+import { create } from "zustand";
+type Item = {
+  id: number;
+  image_url: string;
+  name: string;
+  price: number;
+  description: string;
+  quantity: number;
+};
 
 interface CartState {
-    cart: CartItem[];
-    addToCart: (item: CartItem) => void;
-    removeFromCart: (itemId: string) => void;
-    clearCart: () => void;
+  favorites: Item[];
+  cart: Item[];
+  addToCart: (item: Item) => void;
+  removeFromCart: (itemId: number) => void;
+  clearCart: () => void;
 }
 
 export const useCartStore = create<CartState>((set) => ({
-    cart: [],
-    addToCart: (item) => set((state) => {
-        cart: [...state.cart, item]
+  cart: [],
+  favorites: [],
+  addToCart: (item) =>
+    set((state) => {
+      return { ...state, cart: [...state.cart, item] };
     }),
-    removeFromCart: (itemId: string) => set((state) => {
-        cart: state.cart.filter((item) => item.id !== itemId)
+  removeFromCart: (itemId: number) =>
+    set((state) => {
+      return {
+        ...state,
+        cart: state.cart.filter((item) => item.id !== itemId),
+      };
     }),
-    clearCart: () => set({ cart: []})
+  clearCart: () =>
+    set((state) => {
+      return { ...state, cart: [] };
+    }),
 }));
