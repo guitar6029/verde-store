@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Sidenav from "@/components/Sidenav/Sidenav";
 import { ToastContainer } from "react-toastify";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import ClientWrapper from "@/components/Wrapper/ClientWrapper";
 
 export const metadata: Metadata = {
   title: "Verde",
@@ -14,13 +14,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Create a client
-  const queryClient = new QueryClient();
-
   return (
     <html lang="en">
       <body className="antialiased flex flex-row">
-        <QueryClientProvider client={queryClient}>
+        <ClientWrapper>
           <Sidenav />
           <main className="flex-grow">{children}</main>
           <ToastContainer
@@ -35,7 +32,7 @@ export default function RootLayout({
             pauseOnHover
             theme="light"
           />
-        </QueryClientProvider>
+        </ClientWrapper>
       </body>
     </html>
   );

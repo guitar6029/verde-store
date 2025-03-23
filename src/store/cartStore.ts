@@ -1,12 +1,6 @@
+import { toast } from "react-toastify";
 import { create } from "zustand";
-type Item = {
-  id: number;
-  image_url: string;
-  name: string;
-  price: number;
-  description: string;
-  quantity: number;
-};
+import type { Item } from "@/types/CardProps";
 
 interface CartState {
   favorites: Item[];
@@ -21,10 +15,13 @@ export const useCartStore = create<CartState>((set) => ({
   favorites: [],
   addToCart: (item) =>
     set((state) => {
+      //toast success
+      toast.success(`${item.name} added to cart`);
       return { ...state, cart: [...state.cart, item] };
     }),
   removeFromCart: (itemId: number) =>
     set((state) => {
+      toast.success("Item removed from cart");
       return {
         ...state,
         cart: state.cart.filter((item) => item.id !== itemId),

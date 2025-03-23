@@ -40,3 +40,21 @@ export async function removeFavorite(userId: string, productId: string) {
     .eq("product_id", productId);
   return { data, error };
 }
+
+export async function fetchUserAndFavorites() {
+  const supabase = await createClient();
+  const { data: userObject, error: userError } = await supabase.auth.getUser();
+  if (userError || !userObject.user) {
+    console.error("Error fetching user:", userError);
+    return { favorites: [] };
+  }
+
+  const { data: favoritesData, error: favoritesError } = await getFavorites(
+    userObject.user.id
+  );
+
+  return {
+    user: userObject.user,
+    favorites: favoritesError ? [] : favoritesData,
+  };
+}

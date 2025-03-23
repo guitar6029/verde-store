@@ -3,16 +3,24 @@ import { debounce } from "es-toolkit";
 
 import { useEffect, useState } from "react";
 import { getPlants } from "@/lib/db/plants";
-import { getFavorites, addFavorite, removeFavorite } from "@/lib/db/favorites";
+import {
+  getFavorites,
+  addFavorite,
+  removeFavorite,
+  fetchUserAndFavorites,
+} from "@/lib/db/favorites";
 import Card from "@/components/Card/Card";
 import HeaderWithImgBg from "@/components/SectionTitle/HeaderWithImgBg";
 import { createClient } from "@/utils/supabase/client";
 import { Plant } from "@/types/CardProps";
+import { useCartStore } from "@/store/cartStore";
 
 export default function Plants() {
   const [plants, setPlants] = useState<Array<Plant>>([]);
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const { addToCart } = useCartStore();
 
   useEffect(() => {
     async function fetchData() {
@@ -23,20 +31,18 @@ export default function Plants() {
       }
       setPlants(plantsData);
 
-      // Check if user is logged in
-      const supabase = createClient();
-      const { data: userObject, error: userError } =
-        await supabase.auth.getUser();
+      // Fetch user & favorites via server function
+      const { user, favorites } = await fetchUserAndFavorites();
 
-      if (userError || !userObject.user) {
-        setLoading(false);
-        // If no user, skip the fetch for favorites
-        return;
+      console.log("userObject", user);
+
+      if (!user) {
+        setFavorites([]);
       }
 
       // If user is logged in, fetch their favorites
       const { data: favoritesData, error: favoritesError } = await getFavorites(
-        userObject.user.id
+        user.id
       );
       if (favoritesError) {
         console.error("Error fetching favorites:", favoritesError);
@@ -71,13 +77,18 @@ export default function Plants() {
     500
   ); // 500ms debounce
 
+  //handle cart logic
+  const handleCartLogic = (plant: Plant) => {
+    addToCart(plant);
+  };
+
   if (loading) {
     return (
-    <div className="p-10">
-      <HeaderWithImgBg title="Our Plants" />
-      <span>Loading...</span>
+      <div className="p-10">
+        <HeaderWithImgBg title="Our Plants" />
+        <span className="verde text-5xl">Loading...</span>
       </div>
-  );
+    );
   }
 
   return (
@@ -89,6 +100,7 @@ export default function Plants() {
             key={plant.id}
             {...plant}
             isFavorited={favorites.includes(plant.id)}
+            handleCart={() => handleCartLogic(plant)}
             handleFavorite={() =>
               handleFavorite(plant.id, favorites.includes(plant.id))
             }

@@ -7,6 +7,13 @@ export type Plant = {
     quantity: number
 }
 
+export type Item = {
+    id: number,
+    image_url: string,
+    name: string,
+    price: number,
+    description: string
+}
 
 export type ItemCardProp = {
     id: number,
@@ -16,5 +23,6 @@ export type ItemCardProp = {
     description: string,
     quantity: number,
     isFavorited: boolean,
-    handleFavorite: () => void
+    handleFavorite: (itemId: number) => void
+    handleCart: (item: Item) => void
 }
