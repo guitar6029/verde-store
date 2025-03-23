@@ -1,10 +1,9 @@
 "use client";
 
-import { ShoppingBasket} from "lucide-react";
+import { ShoppingBasket, Heart, HeartOff } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import type { ItemCardProp } from "@/types/CardProps";
-import HeartButton from "../Icons/HeartButton";
 
 export default function Card(props: ItemCardProp) {
   return (
@@ -33,7 +32,19 @@ export default function Card(props: ItemCardProp) {
         <div onClick={() => props.handleCart(props)} className="flex flex-row items-center justify-center p-5 rounded-full bg-green-100 hover:bg-green-200 transition duration-300 ease-in group hover:cursor-pointer">
           <ShoppingBasket className="w-5 h-5 group-hover:text-green-600 group-hover:scale-110" />
         </div>
-        <HeartButton isFavorited={props.isFavorited} onClick={() => props.handleFavorite(props.id)} />
+        <div
+          onClick={props.handleFavorite}
+          className={`flex flex-row items-center justify-center p-5 rounded-full ${
+            props.isFavorited ? "bg-red-200" : "bg-red-100"
+          } hover:bg-red-200 transition duration-300 ease-in group hover:cursor-pointer`}
+        >
+          {props.isFavorited && (
+            <HeartOff className="w-5 h-5 text-red-600 group-hover:scale-110" />
+          )}
+          {!props.isFavorited && (
+            <Heart className="w-5 h-5 group-hover:text-red-600 group-hover:scale-110" />
+          )}
+        </div>
       </div>
     </div>
   );
