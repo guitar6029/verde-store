@@ -5,7 +5,13 @@ import { loadStripe } from "@stripe/stripe-js";
 import HeaderWithImgBg from "@/components/SectionTitle/HeaderWithImgBg";
 import convertToSubcurrency from "@/lib/convertToSubcurrency";
 import CheckoutSection from "@/components/Checkout/CheckoutSection";
+import { useCartStore } from "@/store/cartStore";
+import Link from "next/link";
+import { ArrowLeft } from 'lucide-react';
 export default function Checkout() {
+
+  const { getTotalPrice } = useCartStore();
+
   if (process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY === undefined) {
     throw new Error("NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY is not defined");
   }
@@ -15,12 +21,13 @@ export default function Checkout() {
   );
 
   //demo test
-  const amount = 45.55;
+  const amount = getTotalPrice();
 
   return (
     <div className="min-h-screen p-10 flex flex-col  gap-[3rem]">
       <HeaderWithImgBg title="Checkout" />
-      <h1 className="text-4xl">Amount : {amount}</h1>
+      <Link href="/cart" className="flex flex-row items-center gap-2 hover:text-green-400 transition duration-300 ease-in"><ArrowLeft size={30} /><span className="text-2xl">Go Back</span></Link>
+      <h1 className="text-4xl">Amount : ${amount}</h1>
       <Elements
         stripe={stripePromise}
         options={{

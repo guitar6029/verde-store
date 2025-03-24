@@ -4,7 +4,8 @@ export type Plant = {
     name: string,
     price: number,
     description: string
-    quantity: number
+    quantity: number,
+    category: string
 }
 
 export type Item = {
