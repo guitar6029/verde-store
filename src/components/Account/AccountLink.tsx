@@ -76,7 +76,7 @@ export default function AccountLink() {
           {/* SquareUserRound */}
           <button
             onClick={handleSignOut}
-            className="text-4xl group-hover:text-green-400 transition duration-300 ease-in"
+            className="text-4xl group-hover:text-green-400 transition duration-300 ease-in hover:cursor-pointer"
           >
             Sign Out
           </button>

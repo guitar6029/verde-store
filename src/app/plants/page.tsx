@@ -38,16 +38,8 @@ export default function Plants() {
 
       if (!user) {
         setFavorites([]);
-      }
-
-      // If user is logged in, fetch their favorites
-      const { data: favoritesData, error: favoritesError } = await getFavorites(
-        user.id
-      );
-      if (favoritesError) {
-        console.error("Error fetching favorites:", favoritesError);
       } else {
-        setFavorites(favoritesData);
+        setFavorites(favorites);
       }
 
       setLoading(false);
@@ -57,12 +49,14 @@ export default function Plants() {
   }, []);
 
   // Handle the favorite toggle logic
-  const handleFavorite = debounce(
-    async (plantId: string, isFavorited: boolean) => {
-      const supabase = createClient();
+  const handleFavoriteItem = async (plantId: string, isFavorited: boolean) => {
+    const supabase = createClient();
+    try {
       const { data: userObject } = await supabase.auth.getUser();
+      console.log("userObject ::: ", userObject);
 
-      if (userObject) {
+      // Explicitly check if `userObject.user` exists
+      if (userObject?.user) {
         if (isFavorited) {
           // Remove from favorites
           await removeFavorite(userObject.user.id, plantId);
@@ -72,10 +66,15 @@ export default function Plants() {
           await addFavorite(userObject.user.id, plantId);
           setFavorites([...favorites, plantId]);
         }
+      } else {
+        console.warn(
+          "No authenticated user found. Cannot handle favorite action."
+        );
       }
-    },
-    500
-  ); // 500ms debounce
+    } catch (error) {
+      console.error("Error while handling favorite item:", error);
+    }
+  };
 
   //handle cart logic
   const handleCartLogic = (plant: Plant) => {
@@ -102,7 +101,7 @@ export default function Plants() {
             isFavorited={favorites.includes(plant.id)}
             handleCart={() => handleCartLogic(plant)}
             handleFavorite={() =>
-              handleFavorite(plant.id, favorites.includes(plant.id))
+              handleFavoriteItem(plant.id, favorites.includes(plant.id))
             }
           />
         ))}
