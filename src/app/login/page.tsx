@@ -1,27 +1,42 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/utils/supabase/client"; // Make sure to create the supabase client instance
+import { createClient } from "@/utils/supabase/client"; // Supabase client for session checking
 import { login } from "./actions"; // Import your login/signup actions
 import Link from "next/link";
+
 export default function LoginPage() {
+  const [session, setSession] = useState(null); // State to store session data
+  const [loading, setLoading] = useState(true); // State to track loading state
   const router = useRouter();
 
   useEffect(() => {
     const supabase = createClient();
 
     const checkUserSession = async () => {
-      const { data } = await supabase.auth.getSession(); // Get the current session
+      const { data } = await supabase.auth.getSession(); // Get current session
 
       if (data.session) {
-        // If user is authenticated, redirect to home or dashboard
-        router.push("/"); // Or you can redirect to a different page
+        setSession(data.session); // Set session state if logged in
+        router.push("/"); // Redirect to home/dashboard if already logged in
       }
+
+      setLoading(false); // Set loading to false after the check
     };
 
     checkUserSession();
   }, [router]);
+
+  // If still loading, return nothing or a loading spinner
+  if (loading) {
+    return null; // You can also return a loading spinner here if desired
+  }
+
+  // If session exists, don't render the login form
+  if (session) {
+    return null;
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">

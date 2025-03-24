@@ -1,18 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@/utils/supabase/client"; // Your supabase client
+import { createClient } from "@/utils/supabase/server"; 
 
 export async function middleware(request: NextRequest) {
-  const supabase = createClient();
+  
+  const supabase = await createClient();
 
-  // Get user session data from Supabase
-  const {
-    data: { user },
-  } = await supabase.auth.getUser(); // Directly fetch the user
-  // If the user is logged in and trying to access the /login page
+  //get user session data from supabase
+  const { data: {user}, error} = await supabase.auth.getUser();
+
+  //if there is an error, log it and proceed
+  if (error) {
+    console.error("Error fetching user:", error);
+  }
+
+  // if user is logged in and trying to acess login page, redirect to home page
   if (user && request.nextUrl.pathname === "/login") {
-    // Redirect to the home page or dashboard if already logged in
     return NextResponse.redirect(new URL("/", request.url));
   }
+  
 
   // If the user is not logged in, allow the request to proceed
   return NextResponse.next();
