@@ -35,8 +35,6 @@ export default function Plants() {
       // Fetch user & favorites via server function
       const { user, favorites } = await fetchUserAndFavorites();
 
-      console.log("userObject", user);
-
       if (!user) {
         setFavorites([]);
       } else {
@@ -54,7 +52,7 @@ export default function Plants() {
     const supabase = createClient();
     try {
       const { data: userObject } = await supabase.auth.getUser();
-      console.log("userObject ::: ", userObject);
+      
 
       // Explicitly check if `userObject.user` exists
       if (userObject?.user) {
@@ -94,23 +92,23 @@ export default function Plants() {
 
   return (
     <>
-    {modal && <ModalSignIn onClose={() => setModalShowing(false)} />}
-    <div className="p-10">
-      <HeaderWithImgBg title="Our Plants" />
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {plants?.map((plant) => (
-          <Card
-          key={plant.id}
-          {...plant}
-          isFavorited={favorites.includes(plant.id)}
-          handleCart={() => handleCartLogic(plant)}
-          handleFavorite={() =>
-            handleFavoriteItem(plant.id, favorites.includes(plant.id))
-          }
-          />
-        ))}
+      {modal && <ModalSignIn onClose={() => setModalShowing(false)} />}
+      <div className="p-10">
+        <HeaderWithImgBg title="Our Plants" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {plants?.map((plant) => (
+            <Card
+              key={plant.id}
+              {...plant}
+              isFavorited={favorites.includes(plant.id)}
+              handleCart={() => handleCartLogic(plant)}
+              handleFavorite={() =>
+                handleFavoriteItem(plant.id, favorites.includes(plant.id))
+              }
+            />
+          ))}
+        </div>
       </div>
-    </div>
-        </>
+    </>
   );
 }

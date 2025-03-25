@@ -3,11 +3,14 @@
 import ShoppingCart from "../Icons/ShoppingCart";
 import { useCartStore } from "@/store/cartStore";
 import { Plant } from "@/types/CardProps";
-export default function ShoppingCartWrapper({ item}: { item: Plant }) {
+export default function ShoppingCartWrapper({ item }: { item: Plant }) {
   const { addToCart } = useCartStore();
 
+  /**
+   * Handles the click event on the shopping cart icon.
+   * Adds the item to the cart by calling addToCart.
+   */
   const handleClick = () => {
-    console.log("Wrapper handling the event!");
     addToCart(item);
   };
 
