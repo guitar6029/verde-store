@@ -10,12 +10,13 @@ import {
 import convertToSubcurrency from "@/lib/convertToSubcurrency";
 import { toast } from "react-toastify";
 
+
 export default function CheckoutSection({ amount }: { amount: number }) {
   const stripe = useStripe();
   const elements = useElements();
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+
 
   useEffect(() => {
     fetch("/api/create-payment-intent", {
@@ -40,7 +41,6 @@ export default function CheckoutSection({ amount }: { amount: number }) {
     const { error: submitError } = await elements.submit();
 
     if (submitError) {
-      setErrorMessage(submitError.message);
       setLoading(false);
       toast.error(submitError.message);
     }
@@ -48,14 +48,13 @@ export default function CheckoutSection({ amount }: { amount: number }) {
     //confirm payment
     const { error: confirmError } = await stripe.confirmPayment({
       elements,
-      clientSecret,
+      clientSecret: clientSecret!,
       confirmParams: {
         return_url: `http://localhost:3000/success?amount=${amount}`,
       },
     });
 
     if (confirmError) {
-      setErrorMessage(confirmError.message);
       setLoading(false);
       toast.error(confirmError.message);
     }
@@ -78,7 +77,7 @@ export default function CheckoutSection({ amount }: { amount: number }) {
               cy="12"
               r="10"
               stroke="currentColor"
-              stroke-width="4"
+              strokeWidth="4"
             ></circle>
             <path
               className="opacity-75"
@@ -116,7 +115,7 @@ export default function CheckoutSection({ amount }: { amount: number }) {
               cy="12"
               r="10"
               stroke="currentColor"
-              stroke-width="4"
+              strokeWidth="4"
             ></circle>
             <path
               className="opacity-75"

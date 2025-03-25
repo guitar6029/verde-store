@@ -6,8 +6,47 @@ import { createClient } from "@/utils/supabase/client"; // Supabase client for s
 import { login } from "./actions"; // Import your login/signup actions
 import Link from "next/link";
 
+interface Session {
+  access_token: string;
+  token_type: string;
+  expires_in: number;
+  refresh_token: string;
+  user: User | null;
+}
+
+// interface User {
+//   id: string;
+//   app_metadata: {
+//     provider: string;
+//     [key: string]: any;
+//   };
+//   user_metadata: {
+//     [key: string]: any;
+//   };
+//   aud: string;
+//   created_at: string;
+//   email: string;
+//   email_confirmed_at: string;
+//   last_sign_in_at: string;
+//   role: string;
+//   updated_at: string;
+// }
+
+interface User {
+  id: string;
+  app_metadata: Record<string, unknown>;
+  user_metadata: Record<string, unknown>;
+  aud: string;
+  created_at: string;
+  email: string | undefined;
+  email_confirmed_at: string;
+  last_sign_in_at: string;
+  role: string;
+  updated_at: string;
+}
+
 export default function LoginPage() {
-  const [session, setSession] = useState(null); // State to store session data
+  const [session, setSession] = useState<Session | null>(null); // State to store session data
   const [loading, setLoading] = useState(true); // State to track loading state
   const router = useRouter();
 
@@ -18,7 +57,7 @@ export default function LoginPage() {
       const { data } = await supabase.auth.getSession(); // Get current session
 
       if (data.session) {
-        setSession(data.session); // Set session state if logged in
+        setSession(data.session as Session); // Set session state if logged in
         router.push("/"); // Redirect to home/dashboard if already logged in
       }
 

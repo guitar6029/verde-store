@@ -40,7 +40,7 @@ export default function Card(props: ItemCardProp) {
           <ShoppingBasket className="w-5 h-5 group-hover:text-green-600 group-hover:scale-110" />
         </div>
         <div
-          onClick={props.handleFavorite}
+          onClick={() => props.handleFavorite(props.id)}
           className={`flex flex-row items-center justify-center p-5 rounded-full ${
             props.isFavorited ? "bg-red-200" : "bg-red-100"
           } hover:bg-red-200 transition duration-300 ease-in group hover:cursor-pointer`}

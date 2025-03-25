@@ -21,7 +21,11 @@ export default function Plants() {
   const [modal, setModalShowing] = useState(false);
 
   // ✅ Use TanStack Query
-  const { data: plants = [], isLoading, error } = useQuery({
+  const {
+    data: plants = [],
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["plants"],
     queryFn: getPlants,
     staleTime: 1000 * 60 * 5, // Cache for 5 minutes
@@ -34,7 +38,9 @@ export default function Plants() {
     queryKey: ["user", "favorites"],
     queryFn: async () => {
       const { user, favorites } = await fetchUserAndFavorites();
-      setFavorites(user ? favorites : []);
+      setFavorites(
+        user ? favorites.map((favorite) => favorite.product_id) : []
+      );
     },
     staleTime: 1000 * 60 * 5,
   });
@@ -55,14 +61,16 @@ export default function Plants() {
             setFavorites((prev) => [...prev, plantId]);
           }
         } else {
-          console.warn("No authenticated user found. Cannot handle favorite action.");
+          console.warn(
+            "No authenticated user found. Cannot handle favorite action."
+          );
           setModalShowing(true);
         }
       } catch (error) {
         console.error("Error while handling favorite item:", error);
       }
     }, 300), // 300ms debounce time
-    []
+    [removeFavorite, addFavorite, setFavorites, createClient] // explicit dependencies
   );
 
   // ✅ Handle cart logic
