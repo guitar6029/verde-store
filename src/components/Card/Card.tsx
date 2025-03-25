@@ -4,8 +4,15 @@ import { ShoppingBasket, Heart, HeartOff } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import type { ItemCardProp } from "@/types/CardProps";
+import { useEffect } from "react";
 
 export default function Card(props: ItemCardProp) {
+  
+  useEffect(() => {
+
+  }, [props.isFavorited])
+  
+  
   return (
     <div className="p-10 h-[50rem] flex flex-col gap-2 justify-around shadow-xl shadow-neutral-200 hover:shadow-neutral-400 transition duration-300 ease-in hover:bg-neutral-100">
       <div>

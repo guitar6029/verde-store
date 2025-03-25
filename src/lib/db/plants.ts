@@ -11,7 +11,13 @@ import { createClient } from "@/utils/supabase/server";
 export async function getPlants() {
   const supabase = await createClient();
   const { data, error } = await supabase.from("products").select();
-  return { data, error };
+  
+  if (error) {
+    console.error("Error fetching plants:", error);
+    return []
+  }
+  
+  return data ?? [];
 }
 
 /**

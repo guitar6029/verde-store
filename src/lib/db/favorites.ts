@@ -9,7 +9,7 @@ export async function getFavorites(userId: string) {
   const supabase = await createClient(); // Initialize the Supabase client
   const { data, error } = await supabase
     .from("favorites")
-    .select("product_id") // Select only the product_id (to keep it simple)
+    .select("product_id") 
     .eq("user_id", userId); // Filter by user_id
 
   // Error handling
@@ -22,7 +22,7 @@ export async function getFavorites(userId: string) {
 }
 
 // Add favorite
-export async function addFavorite(userId: string, productId: string) {
+export async function addFavorite(userId: string, productId: number) {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("favorites")
@@ -31,7 +31,7 @@ export async function addFavorite(userId: string, productId: string) {
 }
 
 // Remove favorite
-export async function removeFavorite(userId: string, productId: string) {
+export async function removeFavorite(userId: string, productId: number) {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("favorites")
