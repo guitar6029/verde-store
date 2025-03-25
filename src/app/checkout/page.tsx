@@ -23,6 +23,26 @@ export default function Checkout() {
   //demo test
   const amount = getTotalPrice();
 
+  if (amount === 0) {
+    return (
+      <div className="min-h-screen p-10 flex flex-col  gap-[3rem]">
+        <HeaderWithImgBg title="Checkout" />
+        <Link
+          href="/cart"
+          className="flex flex-row items-center gap-2 hover:text-green-400 transition duration-300 ease-in"
+        >
+          <ArrowLeft size={30} />
+          <span className="text-2xl">Go Back</span>
+        </Link>
+        <h1 className="text-4xl">Amount : ${amount}</h1>
+        <div className="flex flex-col gap-2 justify-center items-center mx-auto">
+          <p className="text-2xl">Your cart is empty</p>
+          <p className="text-2xl">Please add items to your cart</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen p-10 flex flex-col  gap-[3rem]">
       <HeaderWithImgBg title="Checkout" />
