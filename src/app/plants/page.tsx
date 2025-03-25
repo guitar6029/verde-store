@@ -13,11 +13,13 @@ import HeaderWithImgBg from "@/components/SectionTitle/HeaderWithImgBg";
 import { createClient } from "@/utils/supabase/client";
 import { Plant } from "@/types/CardProps";
 import { useCartStore } from "@/store/cartStore";
+import ModalSignIn from "@/components/Modal/ModalSignIn";
 
 export default function Plants() {
   const [plants, setPlants] = useState<Array<Plant>>([]);
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [modal, setModalShowing] = useState(false);
 
   const { addToCart } = useCartStore();
 
@@ -69,6 +71,7 @@ export default function Plants() {
         console.warn(
           "No authenticated user found. Cannot handle favorite action."
         );
+        setModalShowing(true);
       }
     } catch (error) {
       console.error("Error while handling favorite item:", error);
@@ -90,21 +93,24 @@ export default function Plants() {
   }
 
   return (
+    <>
+    {modal && <ModalSignIn onClose={() => setModalShowing(false)} />}
     <div className="p-10">
       <HeaderWithImgBg title="Our Plants" />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {plants?.map((plant) => (
           <Card
-            key={plant.id}
-            {...plant}
-            isFavorited={favorites.includes(plant.id)}
-            handleCart={() => handleCartLogic(plant)}
-            handleFavorite={() =>
-              handleFavoriteItem(plant.id, favorites.includes(plant.id))
-            }
+          key={plant.id}
+          {...plant}
+          isFavorited={favorites.includes(plant.id)}
+          handleCart={() => handleCartLogic(plant)}
+          handleFavorite={() =>
+            handleFavoriteItem(plant.id, favorites.includes(plant.id))
+          }
           />
         ))}
       </div>
     </div>
+        </>
   );
 }

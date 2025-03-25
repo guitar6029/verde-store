@@ -1,9 +1,9 @@
 import { getPlant, getRandomPlants } from "@/lib/db/plants";
 import type { Plant } from "@/types/CardProps";
 import Image from "next/image";
-import { ShoppingBasket, Heart } from "lucide-react";
 import MiniCard from "@/components/Card/MiniCard";
 import HeaderWithImgBg from "@/components/SectionTitle/HeaderWithImgBg";
+import ShoppingCartWrapper from "@/components/Wrapper/ShoppingCartWrapper";
 export default async function Plant({
   params,
 }: {
@@ -44,12 +44,7 @@ export default async function Plant({
       />
       <p className="font-bold text-2xl">${plant?.price}</p>
       <div className="flex flex-row gap-2 items-center">
-        <div className="flex flex-row items-center justify-center p-5 rounded-full bg-green-100 hover:bg-green-200 transition duration-300 ease-in group">
-          <ShoppingBasket className="w-5 h-5 group-hover:text-green-600 group-hover:scale-110" />
-        </div>
-        <div className="flex flex-row items-center justify-center p-5 rounded-full bg-red-100 hover:bg-red-200 transition duration-300 ease-in group">
-          <Heart className="w-5 h-5 group-hover:text-red-600 group-hover:scale-110" />
-        </div>
+        <ShoppingCartWrapper item={plant} />
       </div>
 
       {/* You might like section */}

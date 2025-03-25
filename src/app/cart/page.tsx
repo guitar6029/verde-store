@@ -14,7 +14,10 @@ export default function Cart() {
       <div className="flex flex-row items-center justify-between">
         <h1 className="text-2xl">Total Price: ${getTotalPrice()}</h1>
         <Link href="/checkout" className="group hover:cursor-pointer">
-          <button disabled={getShoppingCart().length === 0} className="disabled:opacity-50 disabled:hover:bg-red-300 disabled:hover:cursor-not-allowed  group-hover:cursor-pointer verde bg-green-100 p-5 rounded-full hover:bg-green-200 transition duration-300 ease-in text-5xl">
+          <button
+            disabled={getShoppingCart().length === 0}
+            className="disabled:opacity-50 disabled:hover:bg-red-300 disabled:hover:cursor-not-allowed  group-hover:cursor-pointer verde bg-green-100 p-5 rounded-full hover:bg-green-200 transition duration-300 ease-in text-5xl"
+          >
             Checkout
           </button>
         </Link>
@@ -38,8 +41,11 @@ export default function Cart() {
               height={150}
               className="object-contain rounded-xl"
             />
-            <span className="text-5xl verde">x {item.quantity}</span>
-            <div onClick={() => removeFromCart(item)} className="group hover:cursor-pointer flex flex-row items-center justify-center p-5 rounded-full bg-red-100 hover:bg-red-200 transition duration-300 ease-in group">
+            <span className="text-5xl font-bold">x {item.quantity}</span>
+            <div
+              onClick={() => removeFromCart(item)}
+              className="group hover:cursor-pointer flex flex-row items-center justify-center p-5 rounded-full bg-red-100 hover:bg-red-200 transition duration-300 ease-in group"
+            >
               <Trash className="w-5 h-5 group-hover:cursor-pointer group-hover:text-red-600 group-hover:scale-110" />
             </div>
           </div>
