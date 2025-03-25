@@ -122,7 +122,7 @@ export default function Sidenav() {
       </div>
       <div
         ref={menu}
-        className=" bg-white flex min-h-screen border-r-2 border-gray-200 min-w-[300px] max-width-[400px] flex-col gap-10 items-center justify-center verde"
+        className=" sidenav-gradient flex min-h-screen border-r-2 border-gray-200 min-w-[300px] max-width-[400px] flex-col gap-10 items-center justify-center verde"
       >
         <div>
           <Link

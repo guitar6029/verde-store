@@ -5,7 +5,7 @@
   --foreground: #171717;
 }
 
-html{
+html {
   scroll-behavior: smooth;
   overflow: hidden;
 }
@@ -20,7 +20,6 @@ main {
   overflow-y: auto;
   height: 100vh;
 }
-
 
 /* Define the custom font using @font-face */
 @font-face {
@@ -43,14 +42,20 @@ main {
 /* For small screens */
 @media screen and (max-width: 768px) {
   .plants-grid {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Cards will fit dynamically */
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(200px, 1fr)
+    ); /* Cards will fit dynamically */
   }
 }
 
 /* For medium screens */
 @media screen and (min-width: 768px) and (max-width: 1480px) {
   .plants-grid {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Dynamically fit, maintain balance */
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(300px, 1fr)
+    ); /* Dynamically fit, maintain balance */
   }
 }
 
@@ -92,4 +97,13 @@ main {
   to {
     transform: translateX(0);
   }
+}
+
+.sidenav-gradient {
+  background: rgb(255, 226, 226);
+  background: linear-gradient(
+    171deg,
+    rgba(255, 226, 226, 1) 2%,
+    rgba(220, 252, 231, 1) 98%
+  );
 }
