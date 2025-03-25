@@ -21,17 +21,17 @@ export default async function Account() {
 
   if (userError) {
     return (
-      <div className="relative min-h-screen flex flex-col gap-[3rem] p-20">
+      <div className="relative min-h-screen flex flex-col gap-[3rem] p-10">
         <HeaderWithImgBg title="Account" />
-        <p>Sorry something went wrong</p>
+        <p className="text-2xl mx-auto my-auto">Sorry something went wrong</p>
       </div>
     );
   }
 
   return (
-    <div className="relative min-h-screen flex flex-col gap-[3rem] p-20">
+    <div className="relative min-h-screen flex flex-col gap-[3rem] p-10">
       <HeaderWithImgBg title="Account" />
-      <h1 className="text-2xl">{getGreeting()}, {userData?.first_name}</h1>
+      <h1 className="text-7xl verde">{getGreeting()}, {userData?.first_name}</h1>
     </div>
   );
 }
