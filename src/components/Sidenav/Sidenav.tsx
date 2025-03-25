@@ -6,6 +6,7 @@ import AccountLink from "../Account/AccountLink";
 import { Menu } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import NavLinksItem from "../Nav/NavLinksItem";
+import MainIconBtn from "../Buttons/MainIconBtn";
 
 const WINDOW_SIZE = 1024;
 const tailwindClassNames = ["hidden", "absolute", "top-0", "left-0", "z-[9]"];
@@ -125,13 +126,14 @@ export default function Sidenav() {
 
   return (
     <>
-      <div
-        ref={menuIcon}
-        onClick={() => handleMenu()}
-        className="absolute top-10 left-10 z-[10] flex flex-row items-center justify-center p-5 rounded-full border-2 border-white hover:border-green-300 bg-green-100 hover:bg-green-200 transition duration-300 ease-in group hover:cursor-pointer"
-      >
-        <Menu size={30} />
-      </div>
+      <MainIconBtn
+        refValue={menuIcon}
+        size={30}
+        Icon={Menu}
+        handleEvent={() => handleMenu()}
+        className="absolute top-10 left-10 z-[10]"
+      />
+
       <div
         ref={menu}
         className=" sidenav-gradient flex min-h-screen border-r-2 border-gray-200 min-w-[300px] max-width-[400px] flex-col gap-10 items-center justify-center verde"

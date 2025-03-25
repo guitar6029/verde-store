@@ -1,5 +1,6 @@
 import { X } from "lucide-react";
 import Link from "next/link";
+import MainIconBtn from "../Buttons/MainIconBtn";
 
 export default function ModalSignIn({ onClose }: { onClose: () => void }) {
   return (
@@ -14,9 +15,10 @@ export default function ModalSignIn({ onClose }: { onClose: () => void }) {
       <div className="flex flex-col gap-5 rounded-xl bg-white p-10 z-[101]">
         <div className="flex flex-row items-center justify-between w-full">
         <h1 className="verde text-7xl">Verde</h1>
-          <button onClick={onClose} className="hover:cursor-pointer p-5 bg-cyan-100 rounded-full hover:bg-cyan-200 transition duration-300 ease-in">
+          <MainIconBtn size={30} Icon={X} handleEvent={onClose} />
+          {/* <button onClick={onClose} className="hover:cursor-pointer p-5 bg-cyan-100 rounded-full hover:bg-cyan-200 transition duration-300 ease-in">
             <X size={30} />
-          </button>
+          </button> */}
         </div>
         <span className="text-2xl">To favorite an item, please create an account</span>
         <div className="flex flex-col gap-5">
