@@ -39,7 +39,7 @@ export default function Plants() {
     },
     enabled: !!user, // Only fetch if the user is not null
     staleTime: 1000 * 60 * 5,
-    onSuccess: (favorites) => setFavorites(favorites), // Update state on successful fetch
+    onSuccess: (favorites: number[]) => setFavorites(favorites), // Update state on successful fetch
   });
 
   const debouncedHandleFavoriteItem = useCallback(
@@ -72,9 +72,9 @@ export default function Plants() {
 
   if (isLoading) {
     return (
-      <div className="p-10">
+      <div className="p-10 flex flex-col items-center justify-center min-h-screen">
         <HeaderWithImgBg title="Our Plants" />
-        <span className="verde text-5xl">Loading...</span>
+        <span className="verde text-9xl mx-auto my-auto">Loading...</span>
       </div>
     );
   }
@@ -93,7 +93,7 @@ export default function Plants() {
       {modal && <ModalSignIn onClose={() => setModalShowing(false)} />}
       <div className="p-10">
         <HeaderWithImgBg title="Our Plants" />
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="plants-grid">
           {plants.map((plant: Plant) => (
             <Card
               key={plant.id}

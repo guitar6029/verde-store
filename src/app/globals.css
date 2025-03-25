@@ -34,3 +34,62 @@ main {
 .verde {
   font-family: "verde", sans-serif;
 }
+
+.plants-grid {
+  display: grid;
+  gap: 1rem; /* Add space between grid items */
+}
+
+/* For small screens */
+@media screen and (max-width: 768px) {
+  .plants-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Cards will fit dynamically */
+  }
+}
+
+/* For medium screens */
+@media screen and (min-width: 768px) and (max-width: 1480px) {
+  .plants-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Dynamically fit, maintain balance */
+  }
+}
+
+/* For larger screens */
+@media screen and (min-width: 1480px) {
+  .plants-grid {
+    grid-template-columns: repeat(2, 1fr); /* Fixed two columns */
+  }
+}
+
+/* For very large screens */
+@media screen and (min-width: 1920px) {
+  .plants-grid {
+    grid-template-columns: repeat(3, 1fr); /* Fixed three columns */
+  }
+}
+
+.animation-slide-from-left {
+  animation: slide-from-left 0.5s ease-in-out;
+}
+
+.animation-slide-to-left {
+  animation: slide-to-left 0.5s ease-in-out;
+}
+
+@keyframes slide-to-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes slide-from-left {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
