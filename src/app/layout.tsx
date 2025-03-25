@@ -3,6 +3,7 @@ import "./globals.css";
 import Sidenav from "@/components/Sidenav/Sidenav";
 import { ToastContainer } from "react-toastify";
 import ClientWrapper from "@/components/Wrapper/ClientWrapper";
+import { UserContextProvider } from "@/context/UserContext";
 
 export const metadata: Metadata = {
   title: "Verde",
@@ -17,22 +18,24 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased flex flex-row">
-        <ClientWrapper>
-          <Sidenav />
-          <main className="flex-grow">{children}</main>
-          <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick={false}
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-          />
-        </ClientWrapper>
+        <UserContextProvider>
+          <ClientWrapper>
+            <Sidenav />
+            <main className="flex-grow">{children}</main>
+            <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick={false}
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+            />
+          </ClientWrapper>
+        </UserContextProvider>
       </body>
     </html>
   );
