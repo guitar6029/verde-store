@@ -34,12 +34,12 @@ export default function Plants() {
   const { data: favoritesData } = useQuery({
     queryKey: ["favorites", user?.id],
     queryFn: async () => {
-      const { favorites } = await getFavorites(user?.id as string);
+      const { data: favorites } = await getFavorites(user?.id as string);
       return favorites.map((favorite) => favorite.product_id);
     },
     enabled: !!user, // Only fetch if the user is not null
     staleTime: 1000 * 60 * 5,
-    onSuccess: (data) => setFavorites(data), // Update state on successful fetch
+    onSuccess: (favorites) => setFavorites(favorites), // Update state on successful fetch
   });
 
   const debouncedHandleFavoriteItem = useCallback(
