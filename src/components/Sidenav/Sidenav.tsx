@@ -8,28 +8,50 @@ import { useState, useRef, useEffect } from "react";
 
 const WINDOW_SIZE = 1024;
 const tailwindClassNames = ["hidden", "absolute", "top-0", "left-0", "z-[9]"];
+
 /**
- * A sidebar component that handles window resizing. If the window width is
- * less than or equal to the WINDOW_SIZE, the menu is hidden and an icon
- * appears in the top-left corner. When the icon is clicked, the menu is
- * shown with an animation. If the window width is greater than the WINDOW_SIZE,
- * the menu is shown by default.
+ * A responsive sidebar component that is visible on larger screens and
+ * hidden on smaller screens. When the window width is less than or equal to
+ * the WINDOW_SIZE, a menu icon appears on the top left corner of the screen.
+ * When the menu icon is clicked, the sidebar slides out from the left.
+ * When the window width is greater than the WINDOW_SIZE, the sidebar is always
+ * visible and the menu icon is hidden.
  *
- * @returns A JSX element representing the sidebar component.
+ * @returns A JSX element representing the sidebar component
  */
 export default function Sidenav() {
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // State to track menu state
   const menu = useRef<HTMLDivElement>(null);
   const menuIcon = useRef<HTMLDivElement>(null);
 
-  //add a listener for window resize
+  // Add event listener for a click outside the menu
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        isMenuOpen && // Trigger only if menu is open
+        menu.current &&
+        menuIcon.current?.classList.contains("flex") &&
+        !menu.current.contains(event.target as Node)
+      ) {
+        handleMenu(true);
+      }
+    };
 
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [isMenuOpen]); // Depend on isMenuOpen
+
+  // Add a listener for window resize
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
 
-    // if the window width is less than or equal to the WINDOW_SIZE, hide the menu
+    // If the window width is less than or equal to the WINDOW_SIZE, hide the menu
     if (windowWidth <= WINDOW_SIZE) {
       for (let i = 0; i < tailwindClassNames.length; i++) {
         menu.current?.classList.add(tailwindClassNames[i]);
@@ -39,7 +61,7 @@ export default function Sidenav() {
       menuIcon.current?.classList.add("flex");
     }
 
-    // if the window width is greater than the WINDOW_SIZE, show the menu
+    // If the window width is greater than the WINDOW_SIZE, show the menu
     if (windowWidth > WINDOW_SIZE) {
       for (let i = 0; i < tailwindClassNames.length; i++) {
         menu.current?.classList.remove(tailwindClassNames[i]);
@@ -55,15 +77,11 @@ export default function Sidenav() {
     };
   }, [windowWidth]);
 
-  const handleMenu = () => {
+  const handleMenu = (clickedOutside: boolean = false) => {
     if (windowWidth <= WINDOW_SIZE) {
-      // Check if the menu is hidden, and apply the correct animation
-      if (menu.current?.classList.contains("hidden")) {
-        menu.current?.classList.remove("hidden");
-        menu.current?.classList.remove("animation-slide-to-left"); // Slide out to the left
-        menu.current?.classList.add("animation-slide-from-left"); // Remove sliding in
-      } else {
-        // Remove conflicting animation classes
+      if (clickedOutside) {
+        // Close the menu
+        setIsMenuOpen(false); // Update state
         menu.current?.classList.remove("animation-slide-from-left");
         menu.current?.classList.add("animation-slide-to-left"); // Add the "slide out" animation
 
@@ -71,6 +89,24 @@ export default function Sidenav() {
         setTimeout(() => {
           menu.current?.classList.add("hidden"); // Hide menu after animation finishes
         }, 500); // Match this duration to your CSS animation time (0.5s in this case)
+        return;
+      }
+
+      // Check if the menu is hidden, and apply the correct animation
+      if (menu.current?.classList.contains("hidden")) {
+        menu.current?.classList.remove("hidden");
+        menu.current?.classList.remove("animation-slide-to-left"); // Slide out to the left
+        menu.current?.classList.add("animation-slide-from-left"); // Remove sliding in
+        setIsMenuOpen(true); // Update state
+      } else {
+        menu.current?.classList.remove("animation-slide-from-left"); // Remove sliding in
+        menu.current?.classList.add("animation-slide-to-left"); // Add the "slide out" animation
+
+        // Delay the "hidden" class addition until the animation completes
+        setTimeout(() => {
+          menu.current?.classList.add("hidden"); // Hide menu after animation finishes
+        }, 500); // Match this duration to your CSS animation time (0.5s in this case)
+        setIsMenuOpen(false); // Update state
       }
     }
   };
@@ -79,7 +115,7 @@ export default function Sidenav() {
     <>
       <div
         ref={menuIcon}
-        onClick={handleMenu}
+        onClick={() => handleMenu()}
         className="absolute top-10 left-10 z-[10] flex flex-row items-center justify-center p-5 rounded-full bg-green-100 hover:bg-green-200 transition duration-300 ease-in group hover:cursor-pointer"
       >
         <Menu size={30} />
