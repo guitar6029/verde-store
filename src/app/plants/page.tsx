@@ -1,7 +1,7 @@
 "use client";
 import { debounce } from "es-toolkit";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getPlants } from "@/lib/db/plants";
 import {
   addFavorite,
@@ -48,33 +48,62 @@ export default function Plants() {
   }, []);
 
   // Handle the favorite toggle logic
-  const handleFavoriteItem = async (plantId: string, isFavorited: boolean) => {
-    const supabase = createClient();
-    try {
-      const { data: userObject } = await supabase.auth.getUser();
-      
+  // const handleFavoriteItem = debounce(
+  //   async (plantId: string, isFavorited: boolean) => {
+  //     const supabase = createClient();
+  //     try {
+  //       const { data: userObject } = await supabase.auth.getUser();
 
-      // Explicitly check if `userObject.user` exists
-      if (userObject?.user) {
-        if (isFavorited) {
-          // Remove from favorites
-          await removeFavorite(userObject.user.id, plantId);
-          setFavorites(favorites.filter((id) => id !== plantId));
+  //       // Explicitly check if `userObject.user` exists
+  //       if (userObject?.user) {
+  //         if (isFavorited) {
+  //           // Remove from favorites
+  //           await removeFavorite(userObject.user.id, plantId);
+  //           setFavorites(favorites.filter((id) => id !== plantId));
+  //         } else {
+  //           // Add to favorites
+  //           await addFavorite(userObject.user.id, plantId);
+  //           setFavorites([...favorites, plantId]);
+  //         }
+  //       } else {
+  //         console.warn(
+  //           "No authenticated user found. Cannot handle favorite action."
+  //         );
+  //         setModalShowing(true);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error while handling favorite item:", error);
+  //     }
+  //   },
+  //   300
+  // ); // 300ms debounce interval
+
+  const debouncedHandleFavoriteItem = useCallback(
+    debounce(async (plantId: string, isFavorited: boolean) => {
+      const supabase = createClient();
+      try {
+        const { data: userObject } = await supabase.auth.getUser();
+
+        if (userObject?.user) {
+          if (isFavorited) {
+            await removeFavorite(userObject.user.id, plantId);
+            setFavorites((prev) => prev.filter((id) => id !== plantId));
+          } else {
+            await addFavorite(userObject.user.id, plantId);
+            setFavorites((prev) => [...prev, plantId]);
+          }
         } else {
-          // Add to favorites
-          await addFavorite(userObject.user.id, plantId);
-          setFavorites([...favorites, plantId]);
+          console.warn(
+            "No authenticated user found. Cannot handle favorite action."
+          );
+          setModalShowing(true);
         }
-      } else {
-        console.warn(
-          "No authenticated user found. Cannot handle favorite action."
-        );
-        setModalShowing(true);
+      } catch (error) {
+        console.error("Error while handling favorite item:", error);
       }
-    } catch (error) {
-      console.error("Error while handling favorite item:", error);
-    }
-  };
+    }, 300), // 300ms debounce time
+    []
+  );
 
   //handle cart logic
   const handleCartLogic = (plant: Plant) => {
@@ -103,7 +132,10 @@ export default function Plants() {
               isFavorited={favorites.includes(plant.id)}
               handleCart={() => handleCartLogic(plant)}
               handleFavorite={() =>
-                handleFavoriteItem(plant.id, favorites.includes(plant.id))
+                debouncedHandleFavoriteItem(
+                  plant.id,
+                  favorites.includes(plant.id)
+                )
               }
             />
           ))}
