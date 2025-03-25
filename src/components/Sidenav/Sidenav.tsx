@@ -11,8 +11,6 @@ export default function Sidenav() {
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
   const menu = useRef<HTMLDivElement>(null);
   const menuIcon = useRef<HTMLDivElement>(null);
-  const [menusIsShowing, setMenusIsShowing] = useState<boolean>(false);
-  
 
   //add a listener for window resize
   useEffect(() => {
@@ -28,7 +26,7 @@ export default function Sidenav() {
     }
 
     // if the window width is greater than the WINDOW_SIZE, show the menu
-    if(windowWidth > WINDOW_SIZE) {
+    if (windowWidth > WINDOW_SIZE) {
       menu.current?.classList.remove("hidden");
       menuIcon.current?.classList.remove("flex");
       menuIcon.current?.classList.add("hidden");
