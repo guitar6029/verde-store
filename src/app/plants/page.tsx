@@ -1,25 +1,25 @@
 "use client";
+
 import { debounce } from "es-toolkit";
 import { useCallback, useState } from "react";
 import { getPlants } from "@/lib/db/plants";
-import {
-  addFavorite,
-  removeFavorite,
-  fetchUserAndFavorites,
-} from "@/lib/db/favorites";
+import { addFavorite, removeFavorite, getFavorites } from "@/lib/db/favorites";
 import Card from "@/components/Card/Card";
 import HeaderWithImgBg from "@/components/SectionTitle/HeaderWithImgBg";
-import { createClient } from "@/utils/supabase/client";
 import { Plant } from "@/types/CardProps";
 import { useCartStore } from "@/store/cartStore";
 import ModalSignIn from "@/components/Modal/ModalSignIn";
 import { useQuery } from "@tanstack/react-query";
+import { useUserContext } from "@/context/UserContext";
 
 export default function Plants() {
   const { addToCart } = useCartStore();
   const [favorites, setFavorites] = useState<number[]>([]);
   const [modal, setModalShowing] = useState(false);
 
+  const { user } = useUserContext(); // Access user from the context
+
+  // Fetch plants
   const {
     data: plants = [],
     isLoading,
@@ -30,29 +30,27 @@ export default function Plants() {
     staleTime: 1000 * 60 * 5, // Cache for 5 minutes
   });
 
-  useQuery({
-    queryKey: ["user", "favorites"],
+  // Fetch favorites only if the user exists
+  const { data: favoritesData } = useQuery({
+    queryKey: ["favorites", user?.id],
     queryFn: async () => {
-      const { user, favorites } = await fetchUserAndFavorites();
-      setFavorites(
-        user ? favorites.map((favorite) => favorite.product_id) : []
-      );
+      const { favorites } = await getFavorites(user?.id as string);
+      return favorites.map((favorite) => favorite.product_id);
     },
+    enabled: !!user, // Only fetch if the user is not null
     staleTime: 1000 * 60 * 5,
+    onSuccess: (data) => setFavorites(data), // Update state on successful fetch
   });
 
   const debouncedHandleFavoriteItem = useCallback(
     debounce(async (plantId: number, isFavorited: boolean) => {
-      const supabase = createClient();
       try {
-        const { data: userObject } = await supabase.auth.getUser();
-
-        if (userObject?.user) {
+        if (user) {
           if (isFavorited) {
-            await removeFavorite(userObject.user.id, plantId);
+            await removeFavorite(user.id, plantId);
             setFavorites((prev) => prev.filter((id) => id !== plantId));
           } else {
-            await addFavorite(userObject.user.id, plantId);
+            await addFavorite(user.id, plantId);
             setFavorites((prev) => [...prev, plantId]);
           }
         } else {
@@ -65,7 +63,7 @@ export default function Plants() {
         console.error("Error while handling favorite item:", error);
       }
     }, 300), // 300ms debounce time
-    [removeFavorite, addFavorite, setFavorites, createClient] // explicit dependencies
+    [removeFavorite, addFavorite, setFavorites, user]
   );
 
   const handleCartLogic = (plant: Plant) => {
