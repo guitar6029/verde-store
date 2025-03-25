@@ -1,7 +1,7 @@
 "use client";
 
 import { debounce } from "es-toolkit";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { getPlants } from "@/lib/db/plants";
 import { addFavorite, removeFavorite, getFavorites } from "@/lib/db/favorites";
 import Card from "@/components/Card/Card";
@@ -30,17 +30,30 @@ export default function Plants() {
     staleTime: 1000 * 60 * 5, // Cache for 5 minutes
   });
 
-  // Fetch favorites only if the user exists
-  const { data: favoritesData } = useQuery({
+  // Fetch favorites (conditionally based on user existence)
+  const {
+    data: favoritesData,
+    isSuccess: favoritesSuccess,
+    isError: favoritesError,
+  } = useQuery({
     queryKey: ["favorites", user?.id],
     queryFn: async () => {
       const { data: favorites } = await getFavorites(user?.id as string);
       return favorites.map((favorite) => favorite.product_id);
     },
-    enabled: !!user, // Only fetch if the user is not null
-    staleTime: 1000 * 60 * 5,
-    onSuccess: (favorites: number[]) => setFavorites(favorites), // Update state on successful fetch
+    enabled: !!user, // Only fetch if the user exists
+    staleTime: 1000 * 60 * 5, // Cache for 5 minutes
   });
+
+  // Update favorites state when query succeeds
+  useEffect(() => {
+    if (favoritesSuccess && favoritesData) {
+      setFavorites(favoritesData);
+    }
+    if (favoritesError) {
+      console.error("Error fetching favorites.");
+    }
+  }, [favoritesSuccess, favoritesData, favoritesError]);
 
   const debouncedHandleFavoriteItem = useCallback(
     debounce(async (plantId: number, isFavorited: boolean) => {
