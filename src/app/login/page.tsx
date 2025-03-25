@@ -5,45 +5,16 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client"; // Supabase client for session checking
 import { login } from "./actions"; // Import your login/signup actions
 import Link from "next/link";
+import type { UserType } from "@/types/User";
 
-interface Session {
+type Session = {
   access_token: string;
   token_type: string;
   expires_in: number;
   refresh_token: string;
-  user: User | null;
-}
+  user: UserType | null;
+};
 
-// interface User {
-//   id: string;
-//   app_metadata: {
-//     provider: string;
-//     [key: string]: any;
-//   };
-//   user_metadata: {
-//     [key: string]: any;
-//   };
-//   aud: string;
-//   created_at: string;
-//   email: string;
-//   email_confirmed_at: string;
-//   last_sign_in_at: string;
-//   role: string;
-//   updated_at: string;
-// }
-
-interface User {
-  id: string;
-  app_metadata: Record<string, unknown>;
-  user_metadata: Record<string, unknown>;
-  aud: string;
-  created_at: string;
-  email: string | undefined;
-  email_confirmed_at: string;
-  last_sign_in_at: string;
-  role: string;
-  updated_at: string;
-}
 
 export default function LoginPage() {
   const [session, setSession] = useState<Session | null>(null); // State to store session data
@@ -79,23 +50,39 @@ export default function LoginPage() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
-      <form className="flex flex-col gap-2 w-2/4">
-        <label htmlFor="email">Email:</label>
-        <input id="email" name="email" type="email" required />
+      <form className="flex flex-col gap-5 w-2/4">
+        <label htmlFor="email" className="text-2xl font-semibold">
+          Email
+        </label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          required
+          className="text-2xl border-2 border-neutral-300 p-5 rounded-xl"
+        />
 
-        <label htmlFor="password">Password:</label>
-        <input id="password" name="password" type="password" required />
+        <label htmlFor="password" className="text-2xl font-semibold">
+          Password
+        </label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          required
+          className="text-2xl border-2 border-neutral-300 p-5 rounded-xl"
+        />
         <button
           formAction={login}
-          className="text-3xl font-bold p-2 bg-cyan-100"
+          className="text-4xl p-5 bg-cyan-100 verde hover:cursor-pointer hover:bg-cyan-200 transition duration-300 ease-in"
         >
           Log in
         </button>
 
         <hr />
-        <div className="flex flex-row gap-2 items-center">
-          <span>Don&apos;t have an account?</span>
-          <Link href={"/register"}>Sign up</Link>
+        <div className="flex flex-col md:flex-row gap-2 md:items-center">
+          <span className="text-2xl">Don&apos;t have an account?</span>
+          <Link href={"/register"} className="text-2xl underline">Sign up</Link>
         </div>
       </form>
     </div>
