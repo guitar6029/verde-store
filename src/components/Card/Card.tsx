@@ -14,7 +14,7 @@ export default function Card(props: ItemCardProp) {
   
   
   return (
-    <div className="p-10 h-[50rem] flex flex-col gap-2 justify-around shadow-xl shadow-neutral-200 hover:shadow-neutral-400 transition duration-300 ease-in hover:bg-neutral-100">
+    <div className="p-20 h-[50rem] flex flex-col gap-5 justify-around shadow-xl shadow-neutral-200 hover:shadow-neutral-400 transition duration-300 ease-in hover:bg-neutral-100">
       <div>
         <Link
           href={`/plants/${props.id}`}

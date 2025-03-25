@@ -20,7 +20,6 @@ export default function Plants() {
   const [favorites, setFavorites] = useState<number[]>([]);
   const [modal, setModalShowing] = useState(false);
 
-  // ✅ Use TanStack Query
   const {
     data: plants = [],
     isLoading,
@@ -31,9 +30,6 @@ export default function Plants() {
     staleTime: 1000 * 60 * 5, // Cache for 5 minutes
   });
 
-  console.log("plants", plants);
-
-  // ✅ Fetch user & favorites separately
   useQuery({
     queryKey: ["user", "favorites"],
     queryFn: async () => {
@@ -45,7 +41,6 @@ export default function Plants() {
     staleTime: 1000 * 60 * 5,
   });
 
-  // ✅ Debounced favorite toggle function
   const debouncedHandleFavoriteItem = useCallback(
     debounce(async (plantId: number, isFavorited: boolean) => {
       const supabase = createClient();
@@ -73,12 +68,10 @@ export default function Plants() {
     [removeFavorite, addFavorite, setFavorites, createClient] // explicit dependencies
   );
 
-  // ✅ Handle cart logic
   const handleCartLogic = (plant: Plant) => {
     addToCart(plant);
   };
 
-  // ✅ Handle loading and errors
   if (isLoading) {
     return (
       <div className="p-10">
