@@ -116,13 +116,13 @@ export default function Sidenav() {
       <div
         ref={menuIcon}
         onClick={() => handleMenu()}
-        className="absolute top-10 left-10 z-[10] flex flex-row items-center justify-center p-5 rounded-full bg-green-100 hover:bg-green-200 transition duration-300 ease-in group hover:cursor-pointer"
+        className="absolute top-10 left-10 z-[10] flex flex-row items-center justify-center p-5 rounded-full border-2 border-white hover:border-green-300 bg-green-100 hover:bg-green-200 transition duration-300 ease-in group hover:cursor-pointer"
       >
         <Menu size={30} />
       </div>
       <div
         ref={menu}
-        className="bg-white flex min-h-screen border-r-2 border-gray-200 min-w-[300px] max-width-[400px] flex-col gap-10 items-center justify-center verde"
+        className=" bg-white flex min-h-screen border-r-2 border-gray-200 min-w-[300px] max-width-[400px] flex-col gap-10 items-center justify-center verde"
       >
         <div>
           <Link
