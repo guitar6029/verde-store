@@ -23,7 +23,7 @@ export default function Sidenav() {
   const menuIcon = useRef<HTMLDivElement>(null);
 
   //add a listener for window resize
-  
+
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -91,9 +91,9 @@ export default function Sidenav() {
         <div>
           <Link
             href={"/"}
-            className="flex flex-row gap-2 items-center justify-center"
+            className="flex flex-row gap-2 items-center justify-center bg-green-200 p-5 transition duration-300 ease-in hover:bg-green-300 hover:cursor-pointer"
           >
-            <h1 className="text-5xl font-semibold">Verde</h1>
+            <h1 className="text-5xl font-semibold p-5 bg-green-300">Verde</h1>
           </Link>
         </div>
 
