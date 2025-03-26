@@ -15,38 +15,37 @@ type Session = {
   user: UserType | null;
 };
 
-
 export default function LoginPage() {
   const [session, setSession] = useState<Session | null>(null); // State to store session data
   const [loading, setLoading] = useState(true); // State to track loading state
   const router = useRouter();
 
-  // useEffect(() => {
-  //   const supabase = createClient();
+  useEffect(() => {
+    const supabase = createClient();
 
-  //   const checkUserSession = async () => {
-  //     const { data } = await supabase.auth.getSession(); // Get current session
+    const checkUserSession = async () => {
+      const { data } = await supabase.auth.getSession(); // Get current session
 
-  //     if (data.session) {
-  //       setSession(data.session as Session); // Set session state if logged in
-  //       router.push("/"); // Redirect to home/dashboard if already logged in
-  //     }
+      if (data.session) {
+        setSession(data.session as Session); // Set session state if logged in
+        router.push("/"); // Redirect to home/dashboard if already logged in
+      }
 
-  //     setLoading(false); // Set loading to false after the check
-  //   };
+      setLoading(false); // Set loading to false after the check
+    };
 
-  //   checkUserSession();
-  // }, [router]);
+    checkUserSession();
+  }, [router]);
 
-  // If still loading, return nothing or a loading spinner
-  // if (loading) {
-  //   return null; // You can also return a loading spinner here if desired
-  // }
+  //If still loading, return nothing or a loading spinner
+  if (loading) {
+    return null; // You can also return a loading spinner here if desired
+  }
 
-  // // If session exists, don't render the login form
-  // if (session) {
-  //   return null;
-  // }
+  // If session exists, don't render the login form
+  if (session) {
+    return null;
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
@@ -82,7 +81,9 @@ export default function LoginPage() {
         <hr />
         <div className="flex flex-col md:flex-row gap-2 md:items-center">
           <span className="text-2xl">Don&apos;t have an account?</span>
-          <Link href={"/register"} className="text-2xl underline">Sign up</Link>
+          <Link href={"/register"} className="text-2xl underline">
+            Sign up
+          </Link>
         </div>
       </form>
     </div>

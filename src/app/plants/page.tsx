@@ -10,14 +10,17 @@ import { Plant } from "@/types/CardProps";
 import { useCartStore } from "@/store/cartStore";
 import ModalSignIn from "@/components/Modal/ModalSignIn";
 import { useQuery } from "@tanstack/react-query";
-import { useUserContext } from "@/context/UserContext";
+import { useAccountStore } from "@/store/accountStore";
+
 
 export default function Plants() {
   const { addToCart } = useCartStore();
   const [favorites, setFavorites] = useState<number[]>([]);
   const [modal, setModalShowing] = useState(false);
+   const { user} = useAccountStore();
 
-  const { user } = useUserContext(); // Access user from the context
+
+  
 
   // Fetch plants
   const {

@@ -8,9 +8,21 @@ import CheckoutSection from "@/components/Checkout/CheckoutSection";
 import { useCartStore } from "@/store/cartStore";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-
+import { useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
 export default function Checkout() {
   const { getTotalPrice } = useCartStore();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  useEffect(() => {
+    const totalAmount = getTotalPrice();
+
+    // Redirect if not coming from /cart and totalAmount is 0
+    if (pathname !== "/cart" && totalAmount === 0) {
+      router.push("/");
+    }
+  }, [pathname, router, getTotalPrice]);
 
   if (process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY === undefined) {
     throw new Error("NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY is not defined");

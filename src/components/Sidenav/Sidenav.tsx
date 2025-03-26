@@ -7,7 +7,6 @@ import AccountLink from "../Account/AccountLink";
 import Link from "next/link";
 import MainIconBtn from "../Buttons/MainIconBtn";
 import NavLinksItem from "../Nav/NavLinksItem";
-import { useAccountStore } from "@/store/accountStore";
 
 const WINDOW_SIZE = 1024;
 const tailwindClassNames = ["hidden", "absolute", "top-0", "left-0", "z-[9]"];
@@ -34,11 +33,14 @@ const NAV_LINKS = [
  * @returns A JSX element representing the sidebar component
  */
 export default function Sidenav() {
-  const [windowWidth, setWindowWidth] = useState<number>(0);
+
+
+  const currentWindowWidth = window.innerWidth;
+
+  const [windowWidth, setWindowWidth] = useState<number>(currentWindowWidth);
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State to track menu state
   const menu = useRef<HTMLDivElement>(null);
   const menuIcon = useRef<HTMLDivElement>(null);
-  const { user } = useAccountStore();
 
   // Add event listener for a click outside the menu
   useEffect(() => {
