@@ -11,6 +11,13 @@ export async function getFavorites(userId: string) {
     .from("favorites")
     .select("product_id")
     .eq("user_id", userId); // Filter by user_id
+    console.log("data:: ", data);
+
+    //test return all
+    const { data: testData, error: testError } = await supabase.from("favorites").select();
+    console.log("testData", testData);
+
+
 
   // Error handling
   if (error) {

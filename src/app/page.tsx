@@ -11,9 +11,9 @@ export default function Home() {
           src={plantsImage}
           alt="Plants"
           quality={100}
-          width={1000}
-          height={1000}
-          className="object-contain  z-[1]"
+          width={1200}
+          height={1200}
+          className="object-contain z-[1]"
         />
       </div>
 

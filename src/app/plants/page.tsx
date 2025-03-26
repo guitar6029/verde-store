@@ -12,15 +12,11 @@ import ModalSignIn from "@/components/Modal/ModalSignIn";
 import { useQuery } from "@tanstack/react-query";
 import { useAccountStore } from "@/store/accountStore";
 
-
 export default function Plants() {
   const { addToCart } = useCartStore();
   const [favorites, setFavorites] = useState<number[]>([]);
   const [modal, setModalShowing] = useState(false);
-   const { user} = useAccountStore();
-
-
-  
+  const { user } = useAccountStore();
 
   // Fetch plants
   const {
@@ -42,7 +38,6 @@ export default function Plants() {
     queryKey: ["favorites", user?.id],
     queryFn: async () => {
       const { data: favorites } = await getFavorites(user?.id as string);
-      console.log("favorites", favorites);
       return favorites.map((favorite) => favorite.product_id);
     },
     enabled: !!user, // Only fetch if the user exists
@@ -98,9 +93,11 @@ export default function Plants() {
 
   if (error) {
     return (
-      <div className="p-10">
+      <div className="p-10 min-h-screen">
         <HeaderWithImgBg title="Our Plants" />
-        <span className="text-red-500 text-5xl">Error loading plants.</span>
+        <span className="text-red-500 text-5xl mx-auto my-auto ">
+          Error loading plants.
+        </span>
       </div>
     );
   }
