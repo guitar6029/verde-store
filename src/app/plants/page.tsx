@@ -1,16 +1,16 @@
 "use client";
 
-import { debounce } from "es-toolkit";
-import { useCallback, useState, useEffect } from "react";
-import { getPlants } from "@/lib/db/plants";
 import { addFavorite, removeFavorite, getFavorites } from "@/lib/db/favorites";
+import { debounce } from "es-toolkit";
+import { getPlants } from "@/lib/db/plants";
+import { Plant } from "@/types/CardProps";
+import { useAccountStore } from "@/store/accountStore";
+import { useCallback, useState, useEffect } from "react";
+import { useCartStore } from "@/store/cartStore";
+import { useQuery } from "@tanstack/react-query";
 import Card from "@/components/Card/Card";
 import HeaderWithImgBg from "@/components/SectionTitle/HeaderWithImgBg";
-import { Plant } from "@/types/CardProps";
-import { useCartStore } from "@/store/cartStore";
 import ModalSignIn from "@/components/Modal/ModalSignIn";
-import { useQuery } from "@tanstack/react-query";
-import { useAccountStore } from "@/store/accountStore";
 
 export default function Plants() {
   const { addToCart } = useCartStore();
