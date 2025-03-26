@@ -33,14 +33,26 @@ const NAV_LINKS = [
  * @returns A JSX element representing the sidebar component
  */
 export default function Sidenav() {
-
-
-  const currentWindowWidth = window.innerWidth;
-
-  const [windowWidth, setWindowWidth] = useState<number>(currentWindowWidth);
+  const [windowWidth, setWindowWidth] = useState<number | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State to track menu state
   const menu = useRef<HTMLDivElement>(null);
   const menuIcon = useRef<HTMLDivElement>(null);
+
+  // Add event listener for window resize and safely set windowWidth
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    // Set windowWidth after the component has mounted
+    setWindowWidth(window.innerWidth);
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   // Add event listener for a click outside the menu
   useEffect(() => {
@@ -69,7 +81,7 @@ export default function Sidenav() {
     };
 
     // If the window width is less than or equal to the WINDOW_SIZE, hide the menu
-    if (windowWidth <= WINDOW_SIZE) {
+    if (windowWidth && windowWidth <= WINDOW_SIZE) {
       for (let i = 0; i < tailwindClassNames.length; i++) {
         menu.current?.classList.add(tailwindClassNames[i]);
       }
@@ -79,7 +91,7 @@ export default function Sidenav() {
     }
 
     // If the window width is greater than the WINDOW_SIZE, show the menu
-    if (windowWidth > WINDOW_SIZE) {
+    if (windowWidth && windowWidth > WINDOW_SIZE) {
       for (let i = 0; i < tailwindClassNames.length; i++) {
         menu.current?.classList.remove(tailwindClassNames[i]);
       }
@@ -95,7 +107,7 @@ export default function Sidenav() {
   }, [windowWidth]);
 
   const handleMenu = (clickedOutside: boolean = false) => {
-    if (windowWidth <= WINDOW_SIZE) {
+    if (windowWidth && windowWidth <= WINDOW_SIZE) {
       if (clickedOutside) {
         // Close the menu
         setIsMenuOpen(false); // Update state
