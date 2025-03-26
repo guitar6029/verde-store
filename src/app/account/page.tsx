@@ -1,37 +1,26 @@
-import { redirect } from "next/navigation";
-import { createClient } from "@/utils/supabase/server";
+"use client";
+
+import { useEffect } from "react";
+import { useAccountStore } from "@/store/accountStore"; // Import Zustand store
 import HeaderWithImgBg from "@/components/SectionTitle/HeaderWithImgBg";
-import { getUser } from "./actions";
-import { getGreeting } from "@/utils/greeting";
 
-export default async function Account() {
-  const supabase = await createClient();
+export default function AccountClient() {
+  const { user, fetchSession } = useAccountStore();
 
-  const { data, error } = await supabase.auth.getUser();
+  // Ensure session is fetched when the component mounts (or user signs in)
+  useEffect(() => {
+    fetchSession(); // Fetch session when component mounts, after user login
+  }, [fetchSession]); // Dependency array ensures fetchSession is re-run if needed
 
-  /**************
-   * if user is not logged in
-   * redirect to home
-   *********/
-  if (error || !data.user) {
-    redirect("/");
-  }
-
-  const { data: userData, error: userError } = await getUser(data.user?.id);
-
-  if (userError) {
-    return (
-      <div className="relative min-h-screen flex flex-col gap-[3rem] p-10">
-        <HeaderWithImgBg title="Account" />
-        <p className="text-2xl mx-auto my-auto">Sorry something went wrong</p>
-      </div>
-    );
+  // Handle loading state while the user is being fetched
+  if (!user) {
+    return <p>Loading user...</p>;
   }
 
   return (
-    <div className="relative min-h-screen flex flex-col gap-[3rem] p-10">
+    <div className="p-10">
       <HeaderWithImgBg title="Account" />
-      <h1 className="text-7xl verde">{getGreeting()}, {userData?.first_name}</h1>
+      <h1 className="text-7xl verde">Hello, {user?.user_metadata?.email.split("@")[0] || "User"}!</h1>
     </div>
   );
 }
