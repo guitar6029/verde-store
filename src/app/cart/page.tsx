@@ -23,6 +23,11 @@ export default function Cart() {
         </Link>
       </div>
       <div className="flex flex-col gap-10">
+        {getShoppingCart().length === 0 && (
+          <h1 className="text-7xl verde mx-auto my-auto p-10 bg-green-100">
+            Cart is empty
+          </h1>
+        )}
         {getShoppingCart().map((item) => (
           <div
             key={item.id}
