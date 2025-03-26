@@ -1,5 +1,5 @@
 "use client";
-import { Search, X } from "lucide-react";
+import { Search } from "lucide-react";
 import { useState } from "react";
 import { debounce } from "es-toolkit";
 import { useCallback } from "react";
@@ -19,22 +19,27 @@ export default function SearchBar({
         value={userInput}
         placeholder="Search Plants"
         className="border-neutral-500 search-bar rounded-xl p-5 border-2  focus:outline-none focus:border-green-200"
-        onChange={(e) => {
-          setUserInput(e.target.value);
-          debouncedHandleChange(e);
-        }}
+        onChange={(e) => setUserInput(e.target.value)}
       />
-      {userInput.length > 0 && (
-        <div className="rounded-full p-5 bg-cyan-100 group hover:cursor-pointer hover:bg-cyan-200 transition duration-300 ease-in">
-          <X onClick={() => setUserInput("")} />
-        </div>
-      )}
 
-      {userInput.length === 0 && (
-        <div className="rounded-full p-5 bg-cyan-100 group hover:cursor-pointer hover:bg-cyan-200 transition duration-300 ease-in">
-          <Search />
-        </div>
-      )}
+      <button
+        disabled={userInput.length === 0}
+        onClick={() => {
+          const mockEvent = {
+            target: {
+              value: userInput,
+            },
+            preventDefault: () => {},
+            stopPropagation: () => {},
+          };
+          debouncedHandleChange(
+            mockEvent as React.ChangeEvent<HTMLInputElement>
+          );
+        }}
+        className="rounded-full p-5 disabled:bg-gray-300 disabled:cursor-default bg-green-200 group hover:cursor-pointer hover:bg-green-300 transition duration-300 ease-in border-2 border-white hover:border-green-300"
+      >
+        <Search className="group-hover:scale-105" />
+      </button>
     </div>
   );
 }
