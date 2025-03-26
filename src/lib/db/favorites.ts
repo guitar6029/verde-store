@@ -9,7 +9,7 @@ export async function getFavorites(userId: string) {
   const supabase = await createClient(); // Initialize the Supabase client
   const { data, error } = await supabase
     .from("favorites")
-    .select("product_id") 
+    .select("product_id")
     .eq("user_id", userId); // Filter by user_id
 
   // Error handling
@@ -17,7 +17,6 @@ export async function getFavorites(userId: string) {
     console.error("Error fetching favorites:", error);
     return { data: [], error: error.message }; // Return empty data with error message
   }
-
   return { data, error: null }; // Return the favorites data, with no error
 }
 

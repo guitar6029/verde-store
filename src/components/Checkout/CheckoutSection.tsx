@@ -47,10 +47,10 @@ export default function CheckoutSection({ amount }: { amount: number }) {
 
     //confirm payment
     const { error: confirmError } = await stripe.confirmPayment({
-      elements,
-      clientSecret: clientSecret!,
+      elements, // Stripe Elements instance
+      clientSecret: clientSecret!, // Keep this here; Stripe needs it
       confirmParams: {
-        return_url: `http://localhost:3000/success?amount=${amount}`,
+        return_url: `http://localhost:3000/success?amount=${amount}`, // Clean URL (no secret exposed)
       },
     });
 

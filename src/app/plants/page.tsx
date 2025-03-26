@@ -42,6 +42,7 @@ export default function Plants() {
     queryKey: ["favorites", user?.id],
     queryFn: async () => {
       const { data: favorites } = await getFavorites(user?.id as string);
+      console.log("favorites", favorites);
       return favorites.map((favorite) => favorite.product_id);
     },
     enabled: !!user, // Only fetch if the user exists

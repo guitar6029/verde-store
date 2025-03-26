@@ -24,14 +24,11 @@ export const useAccountStore = create<AccountState>((set) => ({
     }
 
     if (data.session) {
-      console.log("Session fetched:", data.session);
       set({
         user: data.session.user as UserType,
         session: data.session.access_token,
       });
-    } else {
-      console.log("No session found");
-    }
+    } 
   },
 
   updateUser: (user: UserType) => {
