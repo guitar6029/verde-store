@@ -7,7 +7,7 @@ export default function MainIconBtn({
   className = "", // Default to an empty string if className isn't provided
   handleEvent,
 }: {
-  refValue?: React.RefObject<HTMLDivElement> | null; // Use React.RefObject<HTMLDivElement> instead of HTMLAnchorElement if it's a <div>
+  refValue?: React.RefObject<HTMLDivElement | null>;
   size: number;
   Icon?: React.ComponentType<IconProps>; // Optional Icon
   className?: string; // Optional className

@@ -36,7 +36,7 @@ export default function Sidenav() {
   const [windowWidth, setWindowWidth] = useState<number | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State to track menu state
   const menu = useRef<HTMLDivElement>(null);
-  const menuIcon = useRef<HTMLDivElement>(null);
+  const menuIcon = useRef<HTMLDivElement | null>(null);
 
   // Add event listener for window resize and safely set windowWidth
   useEffect(() => {
