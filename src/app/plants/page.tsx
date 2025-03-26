@@ -11,12 +11,31 @@ import { useQuery } from "@tanstack/react-query";
 import Card from "@/components/Card/Card";
 import HeaderWithImgBg from "@/components/SectionTitle/HeaderWithImgBg";
 import ModalSignIn from "@/components/Modal/ModalSignIn";
+import SearchBar from "@/components/Searchbar/SearchBar";
+import { toast } from "react-toastify";
 
 export default function Plants() {
   const { addToCart } = useCartStore();
   const [favorites, setFavorites] = useState<number[]>([]);
   const [modal, setModalShowing] = useState(false);
+  const [filteredPlants, setFilteredPlants] = useState<Plant[]>([]);
   const { user } = useAccountStore();
+
+  const handleSearch = (searchedTerm: string) => {
+    if (searchedTerm === "") {
+      setFilteredPlants(plants);
+    } else {
+
+      if (!plants.some((plant) => plant.name.toLowerCase().includes(searchedTerm.toLowerCase()))) {
+          toast.error("No results found");
+      }
+      //filter plants based on search term
+      const filtered = plants.filter((plant) => {
+        return plant.name.toLowerCase().includes(searchedTerm.toLowerCase());
+      });
+      setFilteredPlants(filtered);
+    }
+  };
 
   // Fetch plants
   const {
@@ -105,10 +124,24 @@ export default function Plants() {
   return (
     <>
       {modal && <ModalSignIn onClose={() => setModalShowing(false)} />}
-      <div className="p-10">
+      <div className="p-10 flex flex-col gap-5">
         <HeaderWithImgBg title="Our Plants" />
+        <SearchBar handleChange={(e: React.ChangeEvent<HTMLInputElement>) => handleSearch(e.target.value)  } />
         <div className="plants-grid">
-          {plants.map((plant: Plant) => (
+          {filteredPlants.length > 0 ? filteredPlants.map((plant: Plant) => (
+            <Card
+              key={plant.id}
+              {...plant}
+              isFavorited={favorites.includes(plant.id)}
+              handleCart={() => handleCartLogic(plant)}
+              handleFavorite={() =>
+                debouncedHandleFavoriteItem(
+                  Number(plant.id),
+                  favorites.includes(plant.id)
+                )
+              }
+            />
+          ))  : plants.map((plant: Plant) => (
             <Card
               key={plant.id}
               {...plant}
