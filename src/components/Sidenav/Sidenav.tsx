@@ -1,12 +1,12 @@
 "use client";
 
-import { Menu } from "lucide-react";
-import { ShoppingCart, Sprout } from "lucide-react";
+import { ShoppingCart, Sprout, Menu, X } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import AccountLink from "../Account/AccountLink";
 import Link from "next/link";
 import MainIconBtn from "../Buttons/MainIconBtn";
 import NavLinksItem from "../Nav/NavLinksItem";
+
 
 const WINDOW_SIZE = 1024;
 const tailwindClassNames = ["hidden", "absolute", "top-0", "left-0", "z-[9]"];
@@ -37,6 +37,7 @@ export default function Sidenav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State to track menu state
   const menu = useRef<HTMLDivElement>(null);
   const menuIcon = useRef<HTMLDivElement | null>(null);
+  const [isAnimating, setIsAnimating] = useState<boolean>(false);
 
   // Add event listener for window resize and safely set windowWidth
   useEffect(() => {
@@ -107,8 +108,12 @@ export default function Sidenav() {
   }, [windowWidth]);
 
   const handleMenu = (clickedOutside: boolean = false) => {
+    if (isAnimating) return; // Prevent multiple clicks
+
     if (windowWidth && windowWidth <= WINDOW_SIZE) {
+      setIsAnimating(true);
       if (clickedOutside) {
+        setIsAnimating(false);
         // Close the menu
         setIsMenuOpen(false); // Update state
         menu.current?.classList.remove("animation-slide-from-left");
@@ -117,7 +122,8 @@ export default function Sidenav() {
         // Delay the "hidden" class addition until the animation completes
         setTimeout(() => {
           menu.current?.classList.add("hidden"); // Hide menu after animation finishes
-        }, 500); // Match this duration to your CSS animation time (0.5s in this case)
+          setIsAnimating(false);
+        }, 300); // Match this duration to your CSS animation time (0.5s in this case)
         return;
       }
 
@@ -134,18 +140,30 @@ export default function Sidenav() {
         // Delay the "hidden" class addition until the animation completes
         setTimeout(() => {
           menu.current?.classList.add("hidden"); // Hide menu after animation finishes
-        }, 500); // Match this duration to your CSS animation time (0.5s in this case)
+          setIsAnimating(false);
+        }, 300); // Match this duration to your CSS animation time (0.5s in this case)
         setIsMenuOpen(false); // Update state
       }
+      setTimeout(() => setIsAnimating(false), 500);
     }
   };
+
+  function getIconForMenu() {
+    //if menu is opened , then retu X
+    // if menu is closed , then return menu
+    if (isMenuOpen) {
+      return X;
+    } else {
+      return Menu;
+    }
+  }
 
   return (
     <>
       <MainIconBtn
         refValue={menuIcon}
         size={30}
-        Icon={Menu}
+        Icon={getIconForMenu()}
         handleEvent={() => handleMenu()}
         className="absolute top-10 left-10 z-[10]"
       />

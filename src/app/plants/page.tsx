@@ -11,8 +11,8 @@ import { useQuery } from "@tanstack/react-query";
 import Card from "@/components/Card/Card";
 import HeaderWithImgBg from "@/components/SectionTitle/HeaderWithImgBg";
 import ModalSignIn from "@/components/Modal/ModalSignIn";
-import SearchBar from "@/components/Searchbar/SearchBar";
 import { toast } from "react-toastify";
+import SearchBarWithClearBtn from "@/components/Combo/SearchBarWithClearBtn";
 
 export default function Plants() {
   const { addToCart } = useCartStore();
@@ -25,9 +25,12 @@ export default function Plants() {
     if (searchedTerm === "") {
       setFilteredPlants(plants);
     } else {
-
-      if (!plants.some((plant) => plant.name.toLowerCase().includes(searchedTerm.toLowerCase()))) {
-          toast.error("No results found");
+      if (
+        !plants.some((plant) =>
+          plant.name.toLowerCase().includes(searchedTerm.toLowerCase())
+        )
+      ) {
+        toast.error("No results found");
       }
       //filter plants based on search term
       const filtered = plants.filter((plant) => {
@@ -126,35 +129,43 @@ export default function Plants() {
       {modal && <ModalSignIn onClose={() => setModalShowing(false)} />}
       <div className="p-10 flex flex-col gap-5">
         <HeaderWithImgBg title="Our Plants" />
-        <SearchBar handleChange={(e: React.ChangeEvent<HTMLInputElement>) => handleSearch(e.target.value)  } />
+        <SearchBarWithClearBtn
+          handleChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            handleSearch(e.target.value)
+          }
+          onClear={() => handleSearch("")}
+        />
+
         <div className="plants-grid">
-          {filteredPlants.length > 0 ? filteredPlants.map((plant: Plant) => (
-            <Card
-              key={plant.id}
-              {...plant}
-              isFavorited={favorites.includes(plant.id)}
-              handleCart={() => handleCartLogic(plant)}
-              handleFavorite={() =>
-                debouncedHandleFavoriteItem(
-                  Number(plant.id),
-                  favorites.includes(plant.id)
-                )
-              }
-            />
-          ))  : plants.map((plant: Plant) => (
-            <Card
-              key={plant.id}
-              {...plant}
-              isFavorited={favorites.includes(plant.id)}
-              handleCart={() => handleCartLogic(plant)}
-              handleFavorite={() =>
-                debouncedHandleFavoriteItem(
-                  Number(plant.id),
-                  favorites.includes(plant.id)
-                )
-              }
-            />
-          ))}
+          {filteredPlants.length > 0
+            ? filteredPlants.map((plant: Plant) => (
+                <Card
+                  key={plant.id}
+                  {...plant}
+                  isFavorited={favorites.includes(plant.id)}
+                  handleCart={() => handleCartLogic(plant)}
+                  handleFavorite={() =>
+                    debouncedHandleFavoriteItem(
+                      Number(plant.id),
+                      favorites.includes(plant.id)
+                    )
+                  }
+                />
+              ))
+            : plants.map((plant: Plant) => (
+                <Card
+                  key={plant.id}
+                  {...plant}
+                  isFavorited={favorites.includes(plant.id)}
+                  handleCart={() => handleCartLogic(plant)}
+                  handleFavorite={() =>
+                    debouncedHandleFavoriteItem(
+                      Number(plant.id),
+                      favorites.includes(plant.id)
+                    )
+                  }
+                />
+              ))}
         </div>
       </div>
     </>
