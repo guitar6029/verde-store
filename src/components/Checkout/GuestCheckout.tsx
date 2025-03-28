@@ -10,7 +10,10 @@ import {
 import convertToSubcurrency from "@/lib/convertToSubcurrency";
 import { toast } from "react-toastify";
 import { useCartStore } from "@/store/cartStore";
+import { useRouter } from "next/navigation";
+
 export default function GuestCheckoutSection({ amount }: { amount: number }) {
+  const router = useRouter();
   const stripe = useStripe();
   const elements = useElements();
   const [clientSecret, setClientSecret] = useState<string | null>(null);
@@ -81,13 +84,11 @@ export default function GuestCheckoutSection({ amount }: { amount: number }) {
         redirect: "if_required", // Prevents auto-redirect
       });
 
-      if (paymentIntent) {
-        console.log("paymentIntent", paymentIntent);
+      if (paymentIntent && paymentIntent.status === "succeeded") {
         paymentIntentid = paymentIntent.id;
-        toast.success("Payment confirmed. Proceeding to save order...");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setLoading(false);
       toast.error("Error confirming payment");
       //stop everything, and do not continue
@@ -99,11 +100,9 @@ export default function GuestCheckoutSection({ amount }: { amount: number }) {
      * include the payment_intent, guest name, email, amount, and items
      */
 
-
-    console.log("before going to step 2, here is paymentIntentid", paymentIntentid);
     try {
       // create the guest or find existing guest
-      console.log("before going to step 2, here is paymentIntentid ::", paymentIntentid);
+
       const response = await fetch("/api/save-guest-and-order", {
         method: "POST",
         headers: {
@@ -125,7 +124,31 @@ export default function GuestCheckoutSection({ amount }: { amount: number }) {
         }),
       });
       const { success, data, error } = await response.json();
-      console.log(data);
+
+      if (success) {
+        setLoading(false);
+
+        try {
+          // Call the API to clear the cookie before redirect
+          const response = await fetch("/api/clear-cookie", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+
+          if (!response.ok) {
+            throw new Error("Failed to clear cookie");
+          }
+
+          console.log("Cookie cleared successfully");
+        } catch (error) {
+          console.error("Error clearing cookie:", error);
+        }
+
+        // Redirect to the success page with the order ID
+        router.push(`/success?order_id=${data.order_id}`);
+      }
 
       if (error || success === false) {
         // stop everything, and do not continue

@@ -8,7 +8,9 @@ interface ClientWrapperProps {
   children: ReactNode;
 }
 
-export default function ClientWrapper({ children }: ClientWrapperProps) {
+export default function TanstackProviderWrapper({
+  children,
+}: ClientWrapperProps) {
   const [queryClient] = useState(() => new QueryClient());
   const pathname = usePathname();
   const { fetchSession } = useAccountStore();

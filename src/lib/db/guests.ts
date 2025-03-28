@@ -27,14 +27,11 @@ export async function findGuest(guestEmail: string) {
 export async function createGuest(guestEmail: string, name: string) {
   const supabase = await createClient();
 
-  console.log("typeof guestEmail", typeof guestEmail, "typeof name", typeof name);
-  console.log("guestEmail", guestEmail, "name", name);
   guestEmail = guestEmail.trim();
   // Validate inputs
   if (!guestEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(guestEmail)) {
     return { success: false, data: null, error: "Invalid email format" };
   }
-
 
   if (!name) {
     return { success: false, data: null, error: "Name cannot be empty" };

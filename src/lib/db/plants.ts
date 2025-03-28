@@ -11,12 +11,12 @@ import { createClient } from "@/utils/supabase/server";
 export async function getPlants() {
   const supabase = await createClient();
   const { data, error } = await supabase.from("products").select();
-  
+
   if (error) {
     console.error("Error fetching plants:", error);
-    return []
+    return [];
   }
-  
+
   return data ?? [];
 }
 
@@ -37,7 +37,6 @@ export async function getPlant(id: string) {
   return { data, error };
 }
 
-
 /**
  * Fetches a list of up to 5 random plants from the database, excluding the plant with the specified ID.
  *
@@ -45,11 +44,11 @@ export async function getPlant(id: string) {
  * @returns An object containing the shuffled plant data and an optional error.
  */
 
-export async function getRandomPlants(idToIgnore: string, limit : number = 5) {
+export async function getRandomPlants(idToIgnore: string, limit: number = 5) {
   const supabase = await createClient();
-  
+
   if (limit > 5) {
-    limit = 5
+    limit = 5;
   }
 
   // Fetch 5 random products, excluding the one with the given ID

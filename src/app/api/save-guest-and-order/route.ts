@@ -6,7 +6,6 @@ export async function POST(request: NextRequest) {
   const body = await request.json();
   const { payment_id, name, guestEmail, amount, items } = body;
 
-  console.log(" my values :: payment_id", payment_id, "name", name, "guestEmail", guestEmail, "amount", amount, "items", items);
   // Verify the properties are present
   if (
     !payment_id ||
@@ -26,19 +25,16 @@ export async function POST(request: NextRequest) {
     let guestId;
 
     // Step 1: Check if guest exists
-    const { data: guestData } = await findGuest(
-      guestEmail
-    );
+    const { data: guestData } = await findGuest(guestEmail);
 
-    
     // if guest exists
     if (guestData) {
       guestId = guestData.id;
     } else {
       // Step 2: Create a new guest
       const { data: newGuestData, error: createGuestError } = await createGuest(
-          guestEmail,
-          name
+        guestEmail,
+        name
       );
 
       if (createGuestError || !newGuestData) {
@@ -46,21 +42,24 @@ export async function POST(request: NextRequest) {
           `Error creating guest with email ${guestEmail}:`,
           createGuestError
         );
-        return NextResponse.json(
-          { success: false, error: "Failed to create guest", status: 500 }
-        );
+        return NextResponse.json({
+          success: false,
+          error: "Failed to create guest",
+          status: 500,
+        });
       }
 
       guestId = newGuestData.id;
     }
 
-    console.log("before step 3, payment_id", payment_id)
     // Step 3: Save the order
+    //for guests
+    const forGuests = true;
     const {
       success: orderSuccess,
       data: orderData,
       error: orderError,
-    } = await saveOrderToOrders(payment_id, guestId, items, amount);
+    } = await saveOrderToOrders(payment_id, guestId, items, amount, forGuests);
 
     if (!orderSuccess) {
       console.error(`Error saving order for guest ID ${guestId}:`, orderError);

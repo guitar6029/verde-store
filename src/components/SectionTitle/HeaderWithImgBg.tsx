@@ -25,7 +25,7 @@ export default function HeaderWithImgBg({
         ></div>
 
         {/* Header Title */}
-        <h1 className="absolute inset-0 flex items-center text-[3.5rem]  md:text-[7.5rem] p-10  verde z-[3] group-hover:scale-105 transition duration-300 ease-in">
+        <h1 className="absolute inset-0 flex items-center text-[3.5rem]  md:text-[7.5rem] p-10  verde z-[3]">
           {title}
         </h1>
       </div>

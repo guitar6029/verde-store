@@ -44,7 +44,7 @@ export default function SearchBarWithClearBtn({
           <Search className="group-hover:scale-105" />
         </button>
       </div>
-      <button
+      {userInput.length > 0 && <button
         onClick={() => {
           setUserInput("");
           onClear();
@@ -52,7 +52,7 @@ export default function SearchBarWithClearBtn({
         className="clear-btn rounded-xl p-2 verde text-5xl w-[150px] bg-cyan-100 hover:bg-cyan-200 transition duration-300 ease-in-out cursor-pointer"
       >
         Clear
-      </button>
+      </button>}
     </div>
   );
 }

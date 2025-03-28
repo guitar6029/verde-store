@@ -8,13 +8,9 @@ export async function saveOrderToOrders(
   id: string,
   items: Plant[],
   total_price: number,
+  forGuests: boolean
 ) {
   const supabase = await createClient();
-
-  console.log("payment_id", payment_id)
-  console.log("id", id)
-  console.log("items", items)
-  console.log("total_price", total_price)
 
   // Step 1: Insert into `orders` table
   const { data: orderData, error: orderError } = await supabase
@@ -25,7 +21,8 @@ export async function saveOrderToOrders(
         total_price,
         status: "pending",
         created_at: new Date().toISOString(),
-        user_id: id, 
+        guest_id: forGuests ? id : null,
+        user_id: forGuests ? null : id,
         payment_id,
       },
     ]) // Save order without items for now
@@ -33,8 +30,18 @@ export async function saveOrderToOrders(
     .single(); // Expect a single order to be created
 
   if (orderError || !orderData) {
-    console.error("Error saving order:", orderError);
-    return { success: false, error: "Failed to save order" };
+    console.error("Error saving order:", {
+      message: orderError?.message || "No error message provided",
+      code: orderError?.code || "No error code",
+      details: orderError?.details || "No details provided",
+      hint: orderError?.hint || "No hint available",
+    });
+
+    return {
+      success: false,
+      error: "Failed to save order",
+      fullError: orderError,
+    };
   }
 
   const order_id = orderData.id; // Retrieve the created order's ID
