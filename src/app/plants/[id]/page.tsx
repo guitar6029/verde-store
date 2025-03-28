@@ -13,11 +13,11 @@ export default async function Plant({
 }) {
   const resolvedParams = await params;
 
-  const { data: plant, error } = await getPlant(Number(resolvedParams.id));
+  const { data: plant, error } = await getPlant(resolvedParams.id);
 
   //for the you may also like ection
   const { data: plants, error: randomPlantsError } = await getRandomPlants(
-    Number(resolvedParams.id)
+    resolvedParams.id
   );
 
   if (error) {

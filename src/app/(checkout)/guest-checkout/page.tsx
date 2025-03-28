@@ -4,13 +4,13 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import HeaderWithImgBg from "@/components/SectionTitle/HeaderWithImgBg";
 import convertToSubcurrency from "@/lib/convertToSubcurrency";
-import CheckoutSection from "@/components/Checkout/CheckoutSection";
+import GuestCheckoutSection from "@/components/Checkout/GuestCheckout";
 import { useCartStore } from "@/store/cartStore";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
-export default function Checkout() {
+export default function GuestCheckout() {
   const { getTotalPrice } = useCartStore();
   const pathname = usePathname();
   const router = useRouter();
@@ -32,13 +32,12 @@ export default function Checkout() {
     process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
   );
 
-  //demo test
   const amount = getTotalPrice();
 
   if (amount === 0) {
     return (
       <div className="min-h-screen p-10 flex flex-col  gap-[3rem]">
-        <HeaderWithImgBg title="Checkout" />
+        <HeaderWithImgBg title="Guest Checkout" />
         <Link
           href="/cart"
           className="flex flex-row items-center gap-2 hover:text-green-400 transition duration-300 ease-in"
@@ -46,7 +45,7 @@ export default function Checkout() {
           <ArrowLeft size={30} />
           <span className="text-2xl">Go Back</span>
         </Link>
-        <h1 className="text-4xl">Amount : ${amount}</h1>
+
         <div className="flex flex-col gap-2 justify-center items-center mx-auto">
           <p className="text-2xl">Your cart is empty</p>
           <p className="text-2xl">Please add items to your cart</p>
@@ -56,7 +55,7 @@ export default function Checkout() {
   }
 
   return (
-    <div className="min-h-screen p-10 flex flex-col  gap-[3rem]">
+    <div className="min-h-screen p-10 flex flex-col gap-[3rem]">
       <HeaderWithImgBg title="Checkout" />
       <Link
         href="/cart"
@@ -65,7 +64,7 @@ export default function Checkout() {
         <ArrowLeft size={30} />
         <span className="text-2xl">Go Back</span>
       </Link>
-      <h1 className="text-4xl">Amount : ${amount}</h1>
+      <h1 className="text-4xl">Total : ${amount}</h1>
       <Elements
         stripe={stripePromise}
         options={{
@@ -77,7 +76,7 @@ export default function Checkout() {
           currency: "usd",
         }}
       >
-        <CheckoutSection amount={amount} />
+        <GuestCheckoutSection amount={amount} />
       </Elements>
     </div>
   );

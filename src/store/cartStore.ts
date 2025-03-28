@@ -10,6 +10,8 @@ interface CartState {
   clearCart: () => void;
   getTotalPrice: () => number;
   getShoppingCart: () => Plant[];
+  increaseQuantity: (item: Plant) => void;
+  decreaseQuantity: (item: Plant) => void;
 }
 
 export const useCartStore = create<CartState>((set, get) => ({
@@ -62,4 +64,22 @@ export const useCartStore = create<CartState>((set, get) => ({
   getShoppingCart: () => {
     return get().cart;
   },
+  increaseQuantity: (item) =>
+    set((state) => ({
+      ...state,
+      cart: state.cart.map((cartItem) =>
+        cartItem.id === item.id
+          ? { ...cartItem, quantity: cartItem.quantity + 1 }
+          : cartItem
+      ),
+    })),
+  decreaseQuantity: (item) =>
+    set((state) => ({
+      ...state,
+      cart: state.cart.map((cartItem) =>
+        cartItem.id === item.id
+          ? { ...cartItem, quantity: item.quantity > 1 ? cartItem.quantity - 1 : 1 }
+          : cartItem
+      ),
+    })),
 }));

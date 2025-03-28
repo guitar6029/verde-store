@@ -1,5 +1,5 @@
 export type Plant = {
-    id: number,
+    id: string,
     image_url: string,
     name: string,
     price: number,
@@ -9,7 +9,7 @@ export type Plant = {
 }
 
 export type Item = {
-    id: number,
+    id: string,
     image_url: string,
     name: string,
     price: number,
@@ -17,13 +17,13 @@ export type Item = {
 }
 
 export type ItemCardProp = {
-    id: number,
+    id: string,
     image_url: string,
     name: string,
     price: number,
     description: string,
     quantity: number,
     isFavorited: boolean,
-    handleFavorite: (itemId: number) => void
+    handleFavorite: (itemId: string) => void
     handleCart: (item: Item) => void
 }

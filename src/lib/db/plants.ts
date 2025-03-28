@@ -26,7 +26,7 @@ export async function getPlants() {
  * @param id The id of the plant to fetch.
  * @returns An object containing the plant data and an optional error.
  */
-export async function getPlant(id: number) {
+export async function getPlant(id: string) {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("products")
@@ -45,7 +45,7 @@ export async function getPlant(id: number) {
  * @returns An object containing the shuffled plant data and an optional error.
  */
 
-export async function getRandomPlants(idToIgnore: number, limit : number = 5) {
+export async function getRandomPlants(idToIgnore: string, limit : number = 5) {
   const supabase = await createClient();
   
   if (limit > 5) {
