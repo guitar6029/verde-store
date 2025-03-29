@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useAccountStore } from "@/store/accountStore"; // Import Zustand store
 import HeaderWithImgBg from "@/components/SectionTitle/HeaderWithImgBg";
+import { getGreeting } from "@/utils/greeting";
 export default function AccountClient() {
   const { user, fetchSession } = useAccountStore();
 
@@ -23,8 +24,8 @@ export default function AccountClient() {
   return (
     <div className="p-10">
       <HeaderWithImgBg title="Account" />
-      <h1 className="text-7xl verde">
-        Hello, {user?.user_metadata?.email.split("@")[0] || "User"}!
+      <h1 className="text-7xl verde mt-10">
+        {getGreeting()} {user?.user_metadata?.email.split("@")[0] || "User"}!
       </h1>
     </div>
   );
