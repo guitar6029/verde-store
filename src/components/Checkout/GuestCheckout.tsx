@@ -127,26 +127,7 @@ export default function GuestCheckoutSection({ amount }: { amount: number }) {
 
       if (success) {
         setLoading(false);
-
-        // Call the API to handle the cookie
-        try {
-          const response = await fetch("/api/handle-cookie", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
-
-          if (!response.ok) {
-            throw new Error("Failed to handle cookie");
-          }
-
-          console.log("Cookie handled successfully");
-          // Redirect to the success page with the order ID
-          router.push(`/success?order_id=${data.order_id}`);
-        } catch (error) {
-          console.error("Error handling cookie:", error);
-        }
+        router.push(`/success?order_id=${data.order_id}`);
       }
 
       if (error || success === false) {
