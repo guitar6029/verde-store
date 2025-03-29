@@ -11,8 +11,15 @@ import convertToSubcurrency from "@/lib/convertToSubcurrency";
 import { toast } from "react-toastify";
 import { useCartStore } from "@/store/cartStore";
 import { useRouter } from "next/navigation";
+import { UserType } from "@/types/User";
 
-export default function GuestCheckoutSection({ amount }: { amount: number }) {
+export default function CheckoutSession({
+  amount,
+  user,
+}: {
+  amount: number;
+  user: UserType | null;
+}) {
   const router = useRouter();
   const stripe = useStripe();
   const elements = useElements();
@@ -48,15 +55,18 @@ export default function GuestCheckoutSection({ amount }: { amount: number }) {
     e.preventDefault();
     setLoading(true);
 
-    if (!/\S+@\S+\.\S+/.test(guestEmail)) {
-      toast.error("Please enter a valid email address.");
-      setLoading(false);
-      return;
-    }
-    if (!name.trim()) {
-      toast.error("Name cannot be empty.");
-      setLoading(false);
-      return;
+    //if guest
+    if (!user) {
+      if (!/\S+@\S+\.\S+/.test(guestEmail)) {
+        toast.error("Please enter a valid email address.");
+        setLoading(false);
+        return;
+      }
+      if (!name.trim()) {
+        toast.error("Name cannot be empty.");
+        setLoading(false);
+        return;
+      }
     }
 
     if (!stripe || !elements) {
@@ -79,7 +89,7 @@ export default function GuestCheckoutSection({ amount }: { amount: number }) {
         elements,
         clientSecret: clientSecret!,
         confirmParams: {
-          return_url: "http://localhost:3000/guest-success", // Required, but won't be used immediately
+          return_url: "http://localhost:3000/success", // Required, but won't be used immediately
         },
         redirect: "if_required", // Prevents auto-redirect
       });
@@ -96,14 +106,14 @@ export default function GuestCheckoutSection({ amount }: { amount: number }) {
     }
 
     /******* step 2
-     * save guest and order ,
+     * save guest and order or save order with the user ,
      * include the payment_intent, guest name, email, amount, and items
      */
 
     try {
       // create the guest or find existing guest
 
-      const response = await fetch("/api/save-guest-and-order", {
+      const response = await fetch("/api/complete-order", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -121,6 +131,7 @@ export default function GuestCheckoutSection({ amount }: { amount: number }) {
             description: item.description,
             quantity: item.quantity,
           })),
+          user,
         }),
       });
       const { success, data, error } = await response.json();
@@ -179,32 +190,36 @@ export default function GuestCheckoutSection({ amount }: { amount: number }) {
       onSubmit={handleSubmitPayment}
       className="shadow-xl shadow-neutral-200 hover:shadow-neutral-400 transition duration-300 ease-in p-10"
     >
-      <div className="flex flex-col gap-5 mb-[3rem]">
-        <label htmlFor="guest-name">Name</label>
-        <input
-          type="text"
-          name="guest-name"
-          id="guest-name"
-          placeholder="Guest Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="border-blue-500 rounded-lg p-5 border-2  focus:outline-none focus:border-blue-500 w-[25rem]"
-        />
-        <label htmlFor="guest-email">Email</label>
-        <input
-          type="email"
-          name="guest-email"
-          id="guest-email"
-          placeholder="Guest Email"
-          value={guestEmail}
-          onChange={(e) => setGuestEmail(e.target.value)}
-          className="border-blue-500 rounded-lg p-5 border-2  focus:outline-none focus:border-blue-500 w-[25rem]"
-        />
-      </div>
+      {!user && (
+        <div className="flex flex-col gap-5 mb-[3rem]">
+          <label htmlFor="guest-name">Name</label>
+          <input
+            type="text"
+            name="guest-name"
+            id="guest-name"
+            placeholder="Guest Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="border-blue-500 rounded-lg p-5 border-2  focus:outline-none focus:border-blue-500 w-[25rem]"
+          />
+          <label htmlFor="guest-email">Email</label>
+          <input
+            type="email"
+            name="guest-email"
+            id="guest-email"
+            placeholder="Guest Email"
+            value={guestEmail}
+            onChange={(e) => setGuestEmail(e.target.value)}
+            className="border-blue-500 rounded-lg p-5 border-2  focus:outline-none focus:border-blue-500 w-[25rem]"
+          />
+        </div>
+      )}
       {clientSecret && <PaymentElement />}
       <button
         type="submit"
-        disabled={!stripe || loading || guestEmail === "" || name === ""}
+        disabled={
+          !stripe || loading || (!user && (guestEmail === "" || name === ""))
+        }
         className="p-5 flex flex-row items-center gap-2 bg-cyan-100 verde text-5xl w-full mt-5 hover:cursor-pointer hover:bg-cyan-200 transition duration-200 ease-in disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <span>{loading ? "Processing..." : "Make Payment as Guest"}</span>

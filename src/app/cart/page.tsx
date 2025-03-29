@@ -7,7 +7,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useAccountStore } from "@/store/accountStore";
 export default function Cart() {
-
   //get user from store
   const { user } = useAccountStore();
 
@@ -85,38 +84,32 @@ export default function Cart() {
       <div className="flex flex-row items-center justify-between p-10">
         <h1 className="text-2xl font-bold p-5">Total ${getTotalPrice()}</h1>
         {user ? (
-        <Link href="/checkout" className="group hover:cursor-pointer">
-          <button
-            disabled={getShoppingCart().length === 0}
-            className="disabled:opacity-50 disabled:hover:bg-red-300 disabled:hover:cursor-not-allowed  group-hover:cursor-pointer verde bg-green-100 p-5 rounded-full hover:bg-green-200 transition duration-300 ease-in text-5xl"
-          >
-            Checkout
-          </button>
-        </Link>
-
-        ) : (
-        <div className="flex flex-row items-center gap-2">
-
-        <Link href="/guest-checkout" className="group hover:cursor-pointer">
-          <button
-            disabled={getShoppingCart().length === 0}
-            className="disabled:opacity-50 disabled:hover:bg-red-300 disabled:hover:cursor-not-allowed  group-hover:cursor-pointer verde bg-green-100 p-5 rounded-full hover:bg-green-200 transition duration-300 ease-in text-5xl"
+          <Link href="/checkout" className="group hover:cursor-pointer">
+            <button
+              disabled={getShoppingCart().length === 0}
+              className="disabled:opacity-50 disabled:hover:bg-red-300 disabled:hover:cursor-not-allowed  group-hover:cursor-pointer verde bg-green-100 p-5 rounded-full hover:bg-green-200 transition duration-300 ease-in text-5xl"
             >
-            Checkout as Guest
-          </button>
-        </Link>
-          <span className="text-2xl">Or</span>
-        <Link href="/login" className="group hover:cursor-pointer">
-          <button
-            className="group-hover:cursor-pointer verde bg-green-100 p-5 rounded-full hover:bg-green-200 transition duration-300 ease-in text-5xl"
-          >
-            Login
-          </button>
-        </Link>
-
-
-            </div>
-)}
+              Checkout
+            </button>
+          </Link>
+        ) : (
+          <div className="flex flex-row items-center gap-2">
+            <Link href="/checkout" className="group hover:cursor-pointer">
+              <button
+                disabled={getShoppingCart().length === 0}
+                className="disabled:opacity-50 disabled:hover:bg-red-300 disabled:hover:cursor-not-allowed  group-hover:cursor-pointer verde bg-green-100 p-5 rounded-full hover:bg-green-200 transition duration-300 ease-in text-5xl"
+              >
+                Checkout as Guest
+              </button>
+            </Link>
+            <span className="text-2xl">Or</span>
+            <Link href="/login" className="group hover:cursor-pointer">
+              <button className="group-hover:cursor-pointer verde bg-green-100 p-5 rounded-full hover:bg-green-200 transition duration-300 ease-in text-5xl">
+                Login
+              </button>
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );

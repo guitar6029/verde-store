@@ -4,16 +4,18 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import HeaderWithImgBg from "@/components/SectionTitle/HeaderWithImgBg";
 import convertToSubcurrency from "@/lib/convertToSubcurrency";
-import GuestCheckoutSection from "@/components/Checkout/GuestCheckout";
+import CheckoutSession from "@/components/Checkout/Checkout";
 import { useCartStore } from "@/store/cartStore";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
-export default function GuestCheckout() {
+import { useAccountStore } from "@/store/accountStore";
+export default function CheckoutPage() {
   const { getTotalPrice } = useCartStore();
   const pathname = usePathname();
   const router = useRouter();
+  const { user } = useAccountStore();
 
   useEffect(() => {
     const totalAmount = getTotalPrice();
@@ -76,7 +78,7 @@ export default function GuestCheckout() {
           currency: "usd",
         }}
       >
-        <GuestCheckoutSection amount={amount} />
+        <CheckoutSession amount={amount} user={user} />
       </Elements>
     </div>
   );

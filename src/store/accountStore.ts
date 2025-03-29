@@ -8,9 +8,10 @@ type AccountState = {
   fetchSession: () => Promise<void>;
   updateUser: (user: UserType) => void;
   logout: () => Promise<void>;
+  getUser: () => UserType | null;
 };
 
-export const useAccountStore = create<AccountState>((set) => ({
+export const useAccountStore = create<AccountState>((set, get) => ({
   user: null,
   session: null,
 
@@ -40,4 +41,5 @@ export const useAccountStore = create<AccountState>((set) => ({
     await supabase.auth.signOut();
     set({ user: null, session: null });
   },
+  getUser: () => get().user
 }));
