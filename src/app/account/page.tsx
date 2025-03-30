@@ -12,14 +12,14 @@ export default function AccountClient() {
     fetchSession(); // Fetch session when component mounts, after user login
   }, [fetchSession]); // Dependency array ensures fetchSession is re-run if needed
 
-  if (!user) {
-    return (
-      <div className="p-10 flex flex-col">
-        <HeaderWithImgBg title="Account" />
-        <h1 className="text-7xl verde mx-auto my-auto">Loading...</h1>
-      </div>
-    );
-  }
+  // if (!user) {
+  //   return (
+  //     <div className="p-10 flex flex-col">
+  //       <HeaderWithImgBg title="Account" />
+  //       <h1 className="text-7xl verde mx-auto my-auto">Loading...</h1>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="p-10">
