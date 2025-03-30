@@ -43,7 +43,7 @@ export default function LoginPage() {
       const { success, error: registerError } = await signup(formData); // Pass FormData to the login action
       if (success) {
         toast.success("Registration successful! Please check your email.");
-        router.push("/register/confirm");
+        router.push("/login");
       } else {
         toast.error(registerError);
       }
@@ -56,31 +56,6 @@ export default function LoginPage() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <form onSubmit={handleRegister} className="flex flex-col gap-5 w-2/4">
-        <label htmlFor="firstName" className="text-2xl font-semibold">
-          First Name
-        </label>
-        <input
-          id="firstName"
-          name="firstName"
-          type="text"
-          minLength={1}
-          maxLength={50}
-          required
-          className="text-2xl font-semibold rounded-lg p-5 border-2 border-gray-300"
-        />
-
-        <label htmlFor="lastName" className="text-2xl font-semibold">
-          Last Name
-        </label>
-        <input
-          id="lastName"
-          name="lastName"
-          type="text"
-          minLength={1}
-          maxLength={50}
-          required
-          className="text-2xl font-semibold rounded-lg p-5 border-2 border-gray-300"
-        />
         <label htmlFor="email" className="text-2xl font-semibold">
           Email:
         </label>

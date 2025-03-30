@@ -20,7 +20,6 @@ export async function getFavorites(userId: string) {
 
 // Add favorite
 export async function addFavorite(userId: string, productId: string) {
-  console.log("user id and product id", userId, productId);
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("favorites")

@@ -30,7 +30,6 @@ export async function middleware(request: NextRequest) {
 
   // Restrict access to /success if the cookie value is "true"
   if (request.nextUrl.pathname === "/success" && visited?.value === "true") {
-    console.log("visited is true"); // Debugging output
     return NextResponse.redirect(new URL("/", request.url)); // Redirect to homepage
   }
 
@@ -41,23 +40,22 @@ export async function middleware(request: NextRequest) {
     return response;
   }
 
+  //   // **Handle /success page logic**
+  //   const visited = request.cookies.get("visited");
+  //   console.log("visited", visited);
 
-//   // **Handle /success page logic**
-//   const visited = request.cookies.get("visited");
-//   console.log("visited", visited);
+  //   // Reset the cookie when accessing /success
+  //   if (request.nextUrl.pathname === "/success") {
+  //     const response = NextResponse.next();
+  //     response.cookies.set("visited", "null", { path: "/" }); // Reset the cookie
+  //     return response;
+  //   }
 
-//   // Reset the cookie when accessing /success
-//   if (request.nextUrl.pathname === "/success") {
-//     const response = NextResponse.next();
-//     response.cookies.set("visited", "null", { path: "/" }); // Reset the cookie
-//     return response;
-//   }
-
-//   // Restrict access to /success if visited is "true"
-//   if (request.nextUrl.pathname === "/success" && visited?.value === "true") {
-//     console.log("visited is true");
-//     return NextResponse.redirect(new URL("/", request.url)); // Redirect to homepage
-//   }
+  //   // Restrict access to /success if visited is "true"
+  //   if (request.nextUrl.pathname === "/success" && visited?.value === "true") {
+  //     console.log("visited is true");
+  //     return NextResponse.redirect(new URL("/", request.url)); // Redirect to homepage
+  //   }
 
   // Default session handling
   return await updateSession(request);
