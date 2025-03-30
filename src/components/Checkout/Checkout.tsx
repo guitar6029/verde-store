@@ -224,7 +224,7 @@ export default function CheckoutSession({
         }
         className="p-5 flex flex-row items-center gap-2 bg-cyan-100 verde text-5xl w-full mt-5 hover:cursor-pointer hover:bg-cyan-200 transition duration-200 ease-in disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        <span>{loading ? "Processing..." : "Make Payment as Guest"}</span>
+        <span>{loading ? "Processing..." : "Submit Order"}</span>
         {loading && (
           <svg
             className="mr-3 -ml-1 size-5 animate-spin text-green-600"

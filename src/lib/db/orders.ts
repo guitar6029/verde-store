@@ -1,4 +1,4 @@
-"use server";
+"server only";
 
 import { Plant } from "@/types/CardProps";
 import { createClient } from "@/utils/supabase/server";

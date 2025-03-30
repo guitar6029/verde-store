@@ -24,6 +24,6 @@ export type ItemCardProp = {
     description: string,
     quantity: number,
     isFavorited: boolean,
-    handleFavorite: (itemId: string) => void
+    handleFavorite: (item: Item) => void
     handleCart: (item: Item) => void
 }

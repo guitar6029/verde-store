@@ -14,7 +14,6 @@ import ModalSignIn from "@/components/Modal/ModalSignIn";
 import { toast } from "react-toastify";
 import SearchBarWithClearBtn from "@/components/Combo/SearchBarWithClearBtn";
 
-
 export default function Plants() {
   const { addToCart } = useCartStore();
   const [favorites, setFavorites] = useState<string[]>([]);
@@ -78,15 +77,21 @@ export default function Plants() {
   }, [favoritesSuccess, favoritesData, favoritesError]);
 
   const debouncedHandleFavoriteItem = useCallback(
-    debounce(async (plantId: number, isFavorited: boolean) => {
+    debounce(async (plant: Plant, isFavorited: boolean) => {
       try {
         if (user) {
           if (isFavorited) {
-            await removeFavorite(user.id, plantId);
-            setFavorites((prev) => prev.filter((id) => id !== plantId));
+            await removeFavorite(user.id, plant.id);
+            setFavorites((prev) => prev.filter((id) => id !== plant.id));
           } else {
-            await addFavorite(user.id, plantId);
-            setFavorites((prev) => [...prev, plantId]);
+            const { error } = await addFavorite(user.id, plant.id);
+            if (error) {
+              console.error("Error adding favorite:", error);
+              return;
+            } else {
+              toast.success(`Added ${plant.name} to favorites!`);
+              setFavorites((prev) => [...prev, plant.id]);
+            }
           }
         } else {
           console.warn(
@@ -97,7 +102,7 @@ export default function Plants() {
       } catch (error) {
         console.error("Error while handling favorite item:", error);
       }
-    }, 300), // 300ms debounce time
+    }, 500), // 300ms debounce time
     [removeFavorite, addFavorite, setFavorites, user]
   );
 
@@ -147,7 +152,7 @@ export default function Plants() {
                   handleCart={() => handleCartLogic(plant)}
                   handleFavorite={() =>
                     debouncedHandleFavoriteItem(
-                      Number(plant.id),
+                      plant,
                       favorites.includes(plant.id)
                     )
                   }
@@ -161,7 +166,7 @@ export default function Plants() {
                   handleCart={() => handleCartLogic(plant)}
                   handleFavorite={() =>
                     debouncedHandleFavoriteItem(
-                      Number(plant.id),
+                      plant,
                       favorites.includes(plant.id)
                     )
                   }

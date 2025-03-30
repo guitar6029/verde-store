@@ -77,7 +77,7 @@ export default function LoginPage() {
           name="email"
           type="email"
           required
-          className="text-2xl border-2 border-neutral-300 p-5 rounded-xl"
+          className="text-2xl font-semibold rounded-lg p-5 border-2 border-gray-300"
         />
 
         <label htmlFor="password" className="text-2xl font-semibold">
@@ -88,11 +88,11 @@ export default function LoginPage() {
           name="password"
           type="password"
           required
-          className="text-2xl border-2 border-neutral-300 p-5 rounded-xl"
+          className="text-2xl font-semibold rounded-lg p-5 border-2 border-gray-300"
         />
         <button
           type="submit"
-          className="text-4xl p-5 bg-cyan-100 hover:cursor-pointer hover:bg-cyan-200 transition duration-300 ease-in"
+          className="text-4xl p-5 bg-green-200 hover:cursor-pointer hover:bg-green-300 transition duration-300 ease-in"
         >
           Log in
         </button>

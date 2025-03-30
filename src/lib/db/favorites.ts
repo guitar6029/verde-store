@@ -1,5 +1,3 @@
-// /lib/db/favorites.ts
-
 "use server";
 
 import { createClient } from "@/utils/supabase/server";
@@ -21,7 +19,8 @@ export async function getFavorites(userId: string) {
 }
 
 // Add favorite
-export async function addFavorite(userId: string, productId: number) {
+export async function addFavorite(userId: string, productId: string) {
+  console.log("user id and product id", userId, productId);
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("favorites")
@@ -30,7 +29,7 @@ export async function addFavorite(userId: string, productId: number) {
 }
 
 // Remove favorite
-export async function removeFavorite(userId: string, productId: number) {
+export async function removeFavorite(userId: string, productId: string) {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("favorites")
