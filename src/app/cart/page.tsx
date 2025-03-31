@@ -16,6 +16,7 @@ export default function Cart() {
     removeFromCart,
     increaseQuantity,
     decreaseQuantity,
+    clearCart,
   } = useCartStore();
 
   if (getShoppingCart().length === 0) {
@@ -34,6 +35,17 @@ export default function Cart() {
     <div className="p-10 flex flex-col gap-10 min-h-screen">
       <HeaderWithImgBg title="Cart" />
 
+      {getShoppingCart().length > 0 && (
+        <div className="flex flex-row items-center justify-end">
+          <button
+            onClick={() => clearCart()}
+            className="flex flex-row items-center gap-2 cursor-pointer verde bg-red-100 p-5 rounded-full hover:bg-red-200 transition duration-300 ease-in text-5xl"
+          >
+            <Trash size={30} />
+            <span>Clear All</span>
+          </button>
+        </div>
+      )}
       <div className="flex flex-col gap-10 overflow-auto max-h-[50vh]">
         {getShoppingCart().map((item) => (
           <div
