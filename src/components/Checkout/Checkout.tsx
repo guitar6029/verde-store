@@ -138,9 +138,7 @@ export default function CheckoutSession({
 
       if (success) {
         setLoading(false);
-        // Set the cookie before redirecting
-        document.cookie = `visited=true; path=/;`; // Sets a cookie accessible to the e
-        router.push(`/success?order_id=${data.order_id}`);
+        router.replace(`/success?order_id=${data.order_id}`);
       }
 
       if (error || success === false) {
