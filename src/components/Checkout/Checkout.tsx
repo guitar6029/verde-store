@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import { useCartStore } from "@/store/cartStore";
 import { useRouter } from "next/navigation";
 import { UserType } from "@/types/User";
+import LoadingPartial from "../Loading/LoadingPartial";
 
 export default function CheckoutSession({
   amount,
@@ -131,7 +132,7 @@ export default function CheckoutSession({
             description: item.description,
             quantity: item.quantity,
           })),
-          user,
+          userId: user ? user.id : null,
         }),
       });
       const { success, data, error } = await response.json();
@@ -156,33 +157,7 @@ export default function CheckoutSession({
   };
 
   if (!clientSecret || !stripe || !elements) {
-    return (
-      <div className="shadow-xl shadow-neutral-200 hover:shadow-neutral-400 transition duration-300 ease-in p-10 flex flex-col items-center justify-center">
-        <div className="flex flex-row items-center justify-center gap-2">
-          <span>Loading...</span>
-          <svg
-            className="mr-3 -ml-1 size-5 animate-spin text-green-600"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <circle
-              className="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              strokeWidth="4"
-            ></circle>
-            <path
-              className="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-            ></path>
-          </svg>
-        </div>
-      </div>
-    );
+    return LoadingPartial;
   }
 
   return (

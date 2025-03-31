@@ -4,7 +4,7 @@ import { saveOrderToOrders } from "@/lib/db/orders";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const { payment_id, name, guestEmail, amount, items, user } = body;
+  const { payment_id, name, guestEmail, amount, items, userId } = body;
 
   // Verify the properties are present
   if (
@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
     !amount ||
     !items ||
     !Array.isArray(items) ||
-    (!user && (!guestEmail || !name))
+    (!userId && (!guestEmail || !name))
   ) {
     return NextResponse.json(
       { success: false, error: "Missing required parameters", status: 400 },
@@ -21,13 +21,13 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    let userId = user?.id;
-    if (!user) {
+    let userID = userId;
+    if (!userId) {
       // Handle guest logic
       const { data: guestData } = await findGuest(guestEmail);
 
       if (guestData) {
-        userId = guestData.id;
+        userID = guestData.id;
       } else {
         const { data: newGuestData, error: createGuestError } =
           await createGuest(guestEmail, name);
@@ -43,17 +43,17 @@ export async function POST(request: NextRequest) {
           );
         }
 
-        userId = newGuestData.id;
+        userID = newGuestData.id;
       }
     }
 
     // Save the order
-    const forGuests = !user;
+    const forGuests = !userId;
     const {
       success: orderSuccess,
       data: orderData,
       error: orderError,
-    } = await saveOrderToOrders(payment_id, userId, items, amount, forGuests);
+    } = await saveOrderToOrders(payment_id, userID, items, amount, forGuests);
 
     if (!orderSuccess) {
       console.error(
