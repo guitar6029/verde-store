@@ -13,10 +13,9 @@ export async function POST(request: NextRequest) {
         enabled: true,
       },
     });
-    console.log("PaymentIntent created:", paymentIntent);
+
     return NextResponse.json({ clientSecret: paymentIntent.client_secret });
   } catch (error) {
-    console.log("somethign wrong");
     console.error(error);
     return NextResponse.json(
       { error: `Internal server error : ${error}` },
