@@ -8,10 +8,12 @@ import { toast } from "react-toastify";
 import { login } from "./actions";
 import { Session } from "@/types/Session";
 import { LoginSchema } from "@/schemas/Login/schema";
+import LoadingSpinner from "@/components/Icons/Loading";
 
 export default function LoginPage() {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [loginLoading, setLoginLoading] = useState<boolean>(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -40,6 +42,7 @@ export default function LoginPage() {
 
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setLoginLoading(true);
 
     const formData = new FormData(event.target as HTMLFormElement);
     const formEntries = Object.fromEntries(formData.entries());
@@ -59,9 +62,11 @@ export default function LoginPage() {
         router.push("/");
       } else {
         toast.error(loginError);
+        setLoginLoading(false);
       }
     } catch (error) {
       console.error(error);
+      setLoginLoading(false);
       toast.error("Please try again, something went wrong.");
     }
   };
@@ -92,9 +97,17 @@ export default function LoginPage() {
         />
         <button
           type="submit"
+          disabled={loginLoading}
           className="text-4xl p-5 bg-green-200 hover:cursor-pointer hover:bg-green-300 transition duration-300 ease-in"
         >
-          Log in
+          {loginLoading ? (
+            <div className="flex flex-row gap-4 items-center justify-center">
+              <LoadingSpinner />
+              <span>Processing...</span>
+            </div>
+          ) : (
+            "Log in"
+          )}
         </button>
 
         <hr />

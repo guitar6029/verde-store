@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { UserType } from "@/types/User";
 import LoadingPartial from "../Loading/LoadingPartial";
 
+//: ReactNode
 export default function CheckoutSession({
   amount,
   user,
@@ -157,7 +158,7 @@ export default function CheckoutSession({
   };
 
   if (!clientSecret || !stripe || !elements) {
-    return LoadingPartial;
+    return <LoadingPartial />;
   }
 
   return (
@@ -195,7 +196,7 @@ export default function CheckoutSession({
         disabled={
           !stripe || loading || (!user && (guestEmail === "" || name === ""))
         }
-        className="p-5 flex flex-row items-center gap-2 bg-cyan-100 verde text-5xl w-full mt-5 hover:cursor-pointer hover:bg-cyan-200 transition duration-200 ease-in disabled:opacity-50 disabled:cursor-not-allowed"
+        className="p-5 flex flex-row items-center gap-4 bg-cyan-100 verde text-5xl w-full mt-5 hover:cursor-pointer hover:bg-cyan-200 transition duration-200 ease-in disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <span>{loading ? "Processing..." : "Submit Order"}</span>
         {loading && (

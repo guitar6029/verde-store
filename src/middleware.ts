@@ -8,6 +8,11 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  //if guest goes to checkout , let them go
+  if (request.nextUrl.pathname === "/checkout" && !user) {
+    return NextResponse.next();
+  }
+
   // Allow guests to access these paths
   if (request.nextUrl.pathname === "/cart" && !user) {
     return NextResponse.next();
