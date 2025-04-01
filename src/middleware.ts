@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/utils/supabase/middleware";
 import { createClient } from "./utils/supabase/server";
+import { allowGuestAccess } from "./utils/middleware/guests";
 
 export async function middleware(request: NextRequest) {
   const supabase = await createClient();
@@ -16,21 +17,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next(); // Continue without redirecting
   }
 
-  //if guest goes to checkout , let them go
-  if (request.nextUrl.pathname === "/checkout" && !user) {
-    return NextResponse.next();
-  }
-
-  // Allow guests to access these paths
-  if (request.nextUrl.pathname === "/cart" && !user) {
-    return NextResponse.next();
-  }
-
-  if (request.nextUrl.pathname === "/register" && !user) {
-    return NextResponse.next();
-  }
-
-  if (request.nextUrl.pathname === "/plants" && !user) {
+  if (await allowGuestAccess(request)) {
     return NextResponse.next();
   }
 
