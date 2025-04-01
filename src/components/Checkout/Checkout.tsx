@@ -32,6 +32,8 @@ export default function CheckoutSession({
   const { getShoppingCart } = useCartStore();
 
   useEffect(() => {
+    const amountFormatted = convertToSubcurrency(amount);
+    console.log("amountFormatted", amountFormatted);
     fetch("/api/create-payment-intent", {
       method: "POST",
       headers: {
@@ -41,6 +43,7 @@ export default function CheckoutSession({
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log("data for the payment intent", data);
         if (data.clientSecret) {
           setClientSecret(data.clientSecret);
         } else {
@@ -87,6 +90,8 @@ export default function CheckoutSession({
 
     //step 1 confirm payment
     try {
+      console.log("confirming payment");
+      console.log("client secret", clientSecret);
       const { paymentIntent } = await stripe.confirmPayment({
         elements,
         clientSecret: clientSecret!,
@@ -95,6 +100,8 @@ export default function CheckoutSession({
         },
         redirect: "if_required", // Prevents auto-redirect
       });
+      console.log("client secret", clientSecret);
+      console.log("payment intent", paymentIntent);
 
       if (paymentIntent && paymentIntent.status === "succeeded") {
         paymentIntentid = paymentIntent.id;
@@ -153,7 +160,7 @@ export default function CheckoutSession({
     } catch (error) {
       console.log(error);
       setLoading(false);
-      toast.error("Error saving guest and order");
+      toast.error("Error saving order");
     }
   };
 

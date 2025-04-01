@@ -8,6 +8,14 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  ///test purpsoe only
+  if (
+    request.nextUrl.pathname === "/api/create-payment-intent" ||
+    request.nextUrl.pathname === "/api/complete-order"
+  ) {
+    return NextResponse.next(); // Continue without redirecting
+  }
+
   //if guest goes to checkout , let them go
   if (request.nextUrl.pathname === "/checkout" && !user) {
     return NextResponse.next();
@@ -52,7 +60,7 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)", // Current pattern
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|woff|woff2|ttf|otf)$).*)",
     "/account", // Explicitly match /account
     "/success", // Ensure middleware applies to /success
   ],
