@@ -87,7 +87,7 @@ export default function LoginPage() {
         <button
           type="submit"
           disabled={registerLoading}
-          className="text-4xl p-5 bg-green-200 verde hover:cursor-pointer hover:bg-green-300 transition duration-300 ease-in"
+          className="text-5xl verde p-5 bg-green-200 verde hover:cursor-pointer hover:bg-green-300 transition duration-300 ease-in"
         >
           {registerLoading ? (
             <div className="flex flex-row items-center justify-center gap-4">

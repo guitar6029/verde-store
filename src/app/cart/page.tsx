@@ -26,7 +26,9 @@ export default function Cart() {
         <HeaderWithImgBg title="Cart" />
         <div className="flex flex-col gap-2 items-center justify-center mx-auto my-auto">
           <h1 className="text-5xl font-bold">Your cart is empty.</h1>
-          <span className="text-4xl text-gray-400 verde">Add some plants to your cart.</span>
+          <span className="text-4xl text-gray-400 verde">
+            Add some plants to your cart.
+          </span>
           <MainLinkBtn pathUrl="/plants" linkText="Shop" />
         </div>
       </div>
@@ -34,7 +36,7 @@ export default function Cart() {
   }
 
   return (
-    <div className="p-10 flex flex-col gap-10 min-h-screen">
+    <div className="p-10 flex flex-col gap-10 ">
       <HeaderWithImgBg title="Cart" />
 
       {getShoppingCart().length > 0 && (
@@ -48,14 +50,14 @@ export default function Cart() {
           </button>
         </div>
       )}
-      <div className="flex flex-col gap-10 overflow-auto max-h-[50vh]">
+      <div className="flex flex-col gap-10 overflow-auto max-h-[40vh]">
         {getShoppingCart().map((item) => (
           <div
             key={item.id}
             className="flex flex-col gap-5 rounded-xl p-10 h-[500px]"
           >
             <div className="flex flex-col gap-2">
-              <h1 className="text-2xl">{item.name}</h1>
+              <h1 className="text-6xl verde ">{item.name}</h1>
               <span className="italic text-gray-400">{item.category}</span>
 
               <h1 className="text-2xl">${item.price}</h1>
@@ -80,7 +82,7 @@ export default function Cart() {
                 <button
                   disabled={item.quantity === 1}
                   onClick={() => decreaseQuantity(item)}
-                  className="flex flex-row items-center justify-center p-5 rounded-full border-2 disabled:opacity-50  border-green-300 group hover:cursor-pointer bg-green-200 hover:bg-green-300"
+                  className="flex flex-row items-center justify-center p-5 rounded-full border-2 disabled:opacity-50  border-green-300 disabled:cursor-default hover:cursor-pointer bg-green-200 hover:bg-green-300"
                 >
                   <Minus className="w-3 h-3 group-hover:cursor-pointer" />
                 </button>
