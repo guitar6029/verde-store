@@ -26,7 +26,11 @@ export default async function Plant({
 
   return (
     <div className="relative p-20 flex flex-col gap-[3rem] overflow-x-hidden">
-      <div className="absolute bottom-0 -right-30 bg-cyan-50 w-200 h-200 z-[-1]"></div>
+      <div className="absolute bottom-0 -right-30 bg-cyan-50 w-200 h-200 z-[-1] flex flex-row flex-wrap items-center gap-2 overflow-hidden">
+          {/* {Array.from({ length: 550 }).map((_, index) => (
+            <span key={index} className="verde text-3xl transform rotate-[-45deg]">{plant?.name}</span>
+          ))} */}
+      </div>
       <HeaderWithImgBg title={plant?.name} />
       <Link
           href="/plants"
