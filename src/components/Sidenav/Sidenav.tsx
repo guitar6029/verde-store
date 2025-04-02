@@ -56,6 +56,7 @@ export default function Sidenav() {
 
   // Add event listener for a click outside the menu
   useEffect(() => {
+    console.log("isMenuOpen", isMenuOpen);
     const handleClickOutside = (event: MouseEvent) => {
       if (
         isMenuOpen && // Trigger only if menu is open
@@ -107,7 +108,7 @@ export default function Sidenav() {
   }, [windowWidth]);
 
   const handleMenu = (clickedOutside: boolean = false) => {
-    if (isAnimating) return; // Prevent multiple clicks
+    if (isAnimating && !clickedOutside) return; // Prevent multiple clicks
 
     if (windowWidth && windowWidth <= WINDOW_SIZE) {
       setIsAnimating(true);
@@ -169,7 +170,7 @@ export default function Sidenav() {
         size={30}
         Icon={getIconForMenu()}
         handleEvent={() => handleMenu()}
-        className="absolute top-10 left-10 z-[10]"
+        className="absolute top-5 left-5 z-[10]"
       />
 
       <div
