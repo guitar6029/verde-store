@@ -50,6 +50,8 @@ export default function Plants() {
     queryKey: ["plants"],
     queryFn: getPlants,
     staleTime: 1000 * 60 * 5, // Cache for 5 minutes
+    refetchOnMount: false, // Prevents refetching on mount
+    refetchOnWindowFocus: false, // Prevents refetching on tab focus
   });
 
   // Fetch favorites (conditionally based on user existence)
@@ -65,6 +67,8 @@ export default function Plants() {
     },
     enabled: !!user, // Only fetch if the user exists
     staleTime: 1000 * 60 * 5, // Cache for 5 minutes
+    refetchOnMount: false, // Prevents refetching on mount
+    refetchOnWindowFocus: false, // Prevents refetching on tab focus
   });
 
   // Update favorites state when query succeeds
