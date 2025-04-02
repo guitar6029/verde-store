@@ -21,6 +21,11 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  //guest can go to / ( landing page)
+  if (request.nextUrl.pathname === "/") {
+    return NextResponse.next(); // Continue without redirecting
+  }
+
   // Redirect guests from account page to the homepage
   if (request.nextUrl.pathname === "/account" && !user) {
     return NextResponse.redirect(new URL("/", request.url));

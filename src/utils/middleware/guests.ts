@@ -7,7 +7,7 @@ export async function allowGuestAccess(request: NextRequest): Promise<boolean> {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const guestPaths = ["/checkout", "/cart", "/register", "/plants/"];
+  const guestPaths = ["/checkout", "/cart", "/register", "/plants"];
 
   // Guests are allowed access to these paths
   if (!user) {

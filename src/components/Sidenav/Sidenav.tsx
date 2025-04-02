@@ -7,7 +7,6 @@ import Link from "next/link";
 import MainIconBtn from "../Buttons/MainIconBtn";
 import NavLinksItem from "../Nav/NavLinksItem";
 
-
 const WINDOW_SIZE = 1024;
 const tailwindClassNames = ["hidden", "absolute", "top-0", "left-0", "z-[9]"];
 const NAV_LINKS = [
@@ -149,12 +148,17 @@ export default function Sidenav() {
   };
 
   function getIconForMenu() {
-    //if menu is opened , then retu X
-    // if menu is closed , then return menu
-    if (isMenuOpen) {
-      return X;
-    } else {
+    //first if the window size is larger than the WINDOW_SIZE, then return menu icon
+    if (windowWidth && windowWidth > WINDOW_SIZE) {
       return Menu;
+    } else {
+      //if menu is opened , then retu X
+      // if menu is closed , then return menu
+      if (isMenuOpen) {
+        return X;
+      } else {
+        return Menu;
+      }
     }
   }
 

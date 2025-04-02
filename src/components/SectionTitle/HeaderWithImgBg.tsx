@@ -24,8 +24,11 @@ export default function HeaderWithImgBg({
           }}
         ></div>
 
-        {/* Header Title */}
-        <h1 className="absolute inset-0 flex items-center text-[3.5rem]  md:text-[7.5rem] p-10  verde z-[3]">
+        {/* Header Title, different ui group-hover:text-white group-hover:bg-[#768468] transition duration-300 ease-in */}
+        {/* <h1 className="absolute inset-0 flex items-center text-[3.5rem] w-fit md:text-[7.5rem] p-10 font-extrabold verde z-[3] group-hover:bg-[#768468] group-hover:text-[#CC8977] transition duration-300 ease-in ">
+          {title}
+        </h1> */}
+        <h1 className="absolute inset-0 flex items-center text-[3.5rem] w-fit md:text-[7.5rem] p-10 font-extrabold verde z-[3]  transition duration-300 ease-in ">
           {title}
         </h1>
       </div>

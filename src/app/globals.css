@@ -8,6 +8,9 @@
 html {
   scroll-behavior: smooth;
   overflow: hidden;
+  /* set max and min width for the app
+  max-width: 1440px;
+  min-width: 768px; */
 }
 
 body {
@@ -112,12 +115,10 @@ main {
   width: 400px;
 }
 
-
 .search-bar-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  
 }
 
 @media screen and (max-width: 768px) {
@@ -131,9 +132,33 @@ main {
     justify-content: left;
   }
 
-  .clear-btn{
+  .clear-btn {
     width: 100%;
   }
+}
 
- 
+.greeny-gradient-1 {
+  background: rgb(5, 223, 114);
+  background: linear-gradient(
+    202deg,
+    rgba(5, 223, 114, 1) 0%,
+    rgba(127, 217, 195, 1) 100%
+  );
+}
+.greeny-gradient-2 {
+  background: rgb(1, 102, 48);
+  background: linear-gradient(
+    202deg,
+    rgba(1, 102, 48, 1) 0%,
+    rgba(127, 217, 195, 1) 100%
+  );
+}
+
+.greeny-gradient-3 {
+  background: rgb(1, 102, 48);
+  background: linear-gradient(
+    202deg,
+    rgba(1, 102, 48, 1) 0%,
+    rgba(220, 252, 231, 1) 100%
+  );
 }

@@ -6,7 +6,7 @@ import ClientWrapper from "@/components/Wrapper/ClientWrapper";
 
 export const metadata: Metadata = {
   title: "Verde",
-  description: "Plants and things",
+  description: "Nature, Simplified.",
 };
 
 export default function RootLayout({
