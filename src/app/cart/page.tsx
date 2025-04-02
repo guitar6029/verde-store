@@ -6,6 +6,7 @@ import { Trash2 as Trash, Plus, Minus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useAccountStore } from "@/store/accountStore";
+import MainLinkBtn from "@/components/Buttons/MainLinkBtn";
 export default function Cart() {
   //get user from store
   const { user } = useAccountStore();
@@ -23,9 +24,10 @@ export default function Cart() {
     return (
       <div className="p-10 flex flex-col gap-10 min-h-screen">
         <HeaderWithImgBg title="Cart" />
-        <div className="flex flex-col items-center justify-center mx-auto my-auto">
-          <h1 className="text-2xl font-bold">Your cart is empty.</h1>
-          <span className="text-gray-400">Add some plants to your cart.</span>
+        <div className="flex flex-col gap-2 items-center justify-center mx-auto my-auto">
+          <h1 className="text-5xl font-bold">Your cart is empty.</h1>
+          <span className="text-4xl text-gray-400 verde">Add some plants to your cart.</span>
+          <MainLinkBtn pathUrl="/plants" linkText="Shop" />
         </div>
       </div>
     );

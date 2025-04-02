@@ -1,5 +1,5 @@
+import MainLinkBtn from "@/components/Buttons/MainLinkBtn";
 import Image from "next/image";
-import Link from "next/link";
 const plantsImage =
   "https://zrjoqoqiqwdlhbqwvxwb.supabase.co/storage/v1/object/public/verde-product-images//plants-1.jpg";
 
@@ -21,15 +21,10 @@ export default function Home() {
         />
       </div>
 
-      
       <div className="flex flex-col gap-5 items-center z-[2] absolute bg-cyan-100 p-10 opacity-80 ">
         <h1 className="text-7xl md:text-[10rem] verde">Verde</h1>
         <span className="text-5xl verde">Nature, Simplified.</span>
-        <Link href={"/plants"} className="hover:cursor-pointer rounded-xl p-5 w-full text-center bg-green-300 hover:bg-green-400 transition duration-300 ease-in">
-          <span className="text-2xl hover:cursor-pointer transition duration-300 ease-in">
-            Shop
-          </span>
-        </Link>
+        <MainLinkBtn pathUrl="/plants" linkText="Shop" />
       </div>
     </div>
   );
