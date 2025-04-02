@@ -1,3 +1,7 @@
+export const metadata = {
+  title: "Plants",
+};
+
 import Plants from "@/components/Plants/Plants";
 import TanstackProviderWrapper from "@/components/Wrapper/TanstackProviderWrapper";
 
