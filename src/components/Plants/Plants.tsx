@@ -13,6 +13,7 @@ import HeaderWithImgBg from "@/components/SectionTitle/HeaderWithImgBg";
 import ModalSignIn from "@/components/Modal/ModalSignIn";
 import { toast } from "react-toastify";
 import SearchBarWithClearBtn from "@/components/Combo/SearchBarWithClearBtn";
+import LoadingDotsAnimated from "../Loading/LoadingDotsAnimated";
 
 export default function Plants() {
   const { addToCart } = useCartStore();
@@ -114,7 +115,7 @@ export default function Plants() {
     return (
       <div className="p-10 flex flex-col items-center justify-center min-h-screen">
         <HeaderWithImgBg title="Our Plants" />
-        <span className="verde text-9xl mx-auto my-auto">Loading...</span>
+        <LoadingDotsAnimated loadingText="Loading Plants" />
       </div>
     );
   }

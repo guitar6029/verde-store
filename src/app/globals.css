@@ -162,3 +162,27 @@ main {
     rgba(220, 252, 231, 1) 100%
   );
 }
+
+
+/* bounce class with animation */
+.bounce-1 {
+  animation: bounce 1s infinite 300ms;
+}
+.bounce-2 {
+  animation: bounce 1s infinite 900ms;
+}
+.bounce-3 {
+  animation: bounce 1s infinite 1300ms;
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
