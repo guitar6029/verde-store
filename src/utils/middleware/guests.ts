@@ -9,9 +9,12 @@ export async function allowGuestAccess(request: NextRequest): Promise<boolean> {
 
   const guestPaths = ["/checkout", "/cart", "/register", "/plants"];
 
-  // Guests are allowed access to these paths
+  // Guests are allowed access to specific paths, including dynamic /plants/[id] paths
   if (!user) {
-    return guestPaths.includes(request.nextUrl.pathname);
+    const path = request.nextUrl.pathname;
+
+    // Check if the path is explicitly listed or starts with "/plants/"
+    return guestPaths.includes(path) || path.startsWith("/plants/");
   }
 
   // If a user is logged in, return false (they are not restricted)
