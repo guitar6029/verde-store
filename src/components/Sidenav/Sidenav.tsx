@@ -56,7 +56,6 @@ export default function Sidenav() {
 
   // Add event listener for a click outside the menu
   useEffect(() => {
-    console.log("isMenuOpen", isMenuOpen);
     const handleClickOutside = (event: MouseEvent) => {
       if (
         isMenuOpen && // Trigger only if menu is open
