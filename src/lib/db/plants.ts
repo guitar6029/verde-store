@@ -1,33 +1,40 @@
 "use server";
 
 import { createClient } from "@/utils/supabase/server";
+import { SupabaseClient } from "@supabase/supabase-js";
+import { unstable_cache } from "next/cache";
 
 /**
  * Fetches all plants from the database.
- *
- * @returns {data: Plant[], error: { message: string, status: number}}
  */
-
-export async function getPlants() {
-  const supabase = await createClient();
+async function fetchPlants(supabase: SupabaseClient) {
   const { data, error } = await supabase.from("products").select();
 
   if (error) {
     console.error("Error fetching plants:", error);
-    return [];
+    return { success: false, data: null, error: error.message };
   }
-
-  return data ?? [];
+  return { success: true, data, error: null };
 }
 
+// ✅ Create supabase outside, then call the cache
+export const getPlants = async () => {
+  const supabase = await createClient(); // ✅ Created before unstable_cache
+  const cachedFetch = unstable_cache(
+    () => fetchPlants(supabase),
+    ["plantsCache"],
+    {
+      revalidate: 300,
+    }
+  );
+
+  return cachedFetch(); // ✅ Call it separately
+};
+
 /**
- * Fetches a single plant from the database, given its id.
- *
- * @param id The id of the plant to fetch.
- * @returns An object containing the plant data and an optional error.
+ * Fetches a single plant by ID.
  */
-export async function getPlant(id: string) {
-  const supabase = await createClient();
+async function fetchPlant(supabase: SupabaseClient, id: string) {
   const { data, error } = await supabase
     .from("products")
     .select()
@@ -37,32 +44,57 @@ export async function getPlant(id: string) {
   return { data, error };
 }
 
-/**
- * Fetches a list of up to 5 random plants from the database, excluding the plant with the specified ID.
- *
- * @param idToIgnore The ID of the plant to exclude from the results.
- * @returns An object containing the shuffled plant data and an optional error.
- */
-
-export async function getRandomPlants(idToIgnore: string, limit: number = 5) {
+// ✅ Create supabase outside, then call the cache
+export const getPlant = async (id: string) => {
   const supabase = await createClient();
+  const cachedFetch = unstable_cache(
+    () => fetchPlant(supabase, id),
+    [`plantCache-${id}`],
+    {
+      revalidate: 300,
+    }
+  );
 
+  return cachedFetch();
+};
+
+/**
+ * Fetches random plants excluding a given ID.
+ */
+async function gfetchRandomPlants(
+  supabase: SupabaseClient,
+  idToIgnore: string,
+  limit: number = 5
+) {
   if (limit > 5) {
     limit = 5;
   }
 
-  // Fetch 5 random products, excluding the one with the given ID
   const { data, error } = await supabase
     .from("products")
-    .select("*") // Explicitly select all columns
-    .not("id", "eq", idToIgnore) // Exclude the product with the given ID
-    .limit(limit); // Limit results
+    .select("*")
+    .not("id", "eq", idToIgnore)
+    .limit(limit);
 
-  // Shuffle the results client-side for randomness
   if (data && data.length > 0) {
-    const shuffledData = data.sort(() => Math.random() - 0.5); // Randomly shuffle the results
+    const shuffledData = data.sort(() => Math.random() - 0.5);
     return { data: shuffledData.slice(0, 5), error };
   }
 
   return { data, error };
 }
+
+// ✅ Create supabase outside, then call the cache
+export const getRandomPlants = async (
+  idToIgnore: string,
+  limit: number = 5
+) => {
+  const supabase = await createClient();
+  const cachedFetch = unstable_cache(
+    () => gfetchRandomPlants(supabase, idToIgnore, limit),
+    [`randomPlantsCache-${idToIgnore}-${limit}`],
+    { revalidate: 300 }
+  );
+
+  return cachedFetch();
+};
