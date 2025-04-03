@@ -2,11 +2,13 @@
 
 import { addFavorite, removeFavorite, getFavorites } from "@/lib/db/favorites";
 import { debounce } from "es-toolkit";
+import { MoveUp } from "lucide-react";
 import { Plant } from "@/types/CardProps";
+import { scrollToTop } from "@/utils/scroll/scrollRelated";
 import { toast } from "react-toastify";
 import { useAccountStore } from "@/store/accountStore";
+import { useCallback, useState, useEffect, useRef } from "react";
 import { useCartStore } from "@/store/cartStore";
-import { useCallback, useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Card from "@/components/Card/Card";
 import ModalSignIn from "@/components/Modal/ModalSignIn";
@@ -18,6 +20,42 @@ export default function Plants({ plants }: { plants: Plant[] }) {
   const [modal, setModalShowing] = useState(false);
   const { user } = useAccountStore();
   const { addToCart } = useCartStore();
+
+  //for the scroll btn
+  const parentDivRef = useRef<HTMLDivElement | null>(null);
+  // for the scroll btn
+  const [scrollBtn, setScrollBtnVisibility] = useState<boolean>(false);
+
+  useEffect(() => {
+    const mainElement = document.querySelector("main");
+
+    const handleScroll = () => {
+      if (mainElement) {
+        const scrollPosition = mainElement.scrollTop;
+        const divHeight = mainElement.offsetHeight;
+
+        console.log("Scroll Position:", scrollPosition); // Debugging
+        console.log("Div Height:", divHeight); // Debugging
+
+        if (scrollPosition > divHeight * 0.55) {
+          setScrollBtnVisibility(true);
+        } else {
+          setScrollBtnVisibility(false);
+        }
+      }
+    };
+
+    if (mainElement) {
+      mainElement.addEventListener("scroll", handleScroll);
+    }
+
+    // Cleanup
+    return () => {
+      if (mainElement) {
+        mainElement.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, []);
 
   // Sync filteredPlants with initial plants when plants change
   useEffect(() => {
@@ -38,7 +76,7 @@ export default function Plants({ plants }: { plants: Plant[] }) {
     );
 
     setFilteredPlants(filtered);
-    
+
     if (filtered.length === 0) {
       toast.error("No results found");
     }
@@ -90,14 +128,21 @@ export default function Plants({ plants }: { plants: Plant[] }) {
 
   return (
     <>
-      {modal && <ModalSignIn onClose={() => setModalShowing(false)} />}
-      <div className="mt-10">
-
-      <SearchBarWithClearBtn
-        handleChange={(e) => handleSearch(e.target.value)}
-        onClear={() => handleSearch("")}
-        />
+      {scrollBtn ? (
+        <div
+          onClick={scrollToTop}
+          className="fixed bottom-10 right-5 p-5 z-10 rounded-full bg-green-200 hover:bg-green-300 transition duration-300 ease-in group hover:cursor-pointer hover:scale-110"
+        >
+          <MoveUp size={50} className="text-white group-hover:cursor-pointer" />
         </div>
+      ) : null}
+      {modal && <ModalSignIn onClose={() => setModalShowing(false)} />}
+      <div ref={parentDivRef} className="mt-10">
+        <SearchBarWithClearBtn
+          handleChange={(e) => handleSearch(e.target.value)}
+          onClear={() => handleSearch("")}
+        />
+      </div>
 
       <div className="plants-grid">
         {filteredPlants.map((plant) => (
