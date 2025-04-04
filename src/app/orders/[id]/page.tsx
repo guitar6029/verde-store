@@ -2,7 +2,6 @@ import { getDetailsOrder } from "@/lib/db/orders";
 import HeaderWithImgBg from "@/components/SectionTitle/HeaderWithImgBg";
 import OrdersList from "@/components/Orders/OrdersList";
 import ItemsContainer from "@/components/Items/ItemsContainer";
-import Link from "next/link";
 import Goback from "@/components/Nav/Goback";
 export default async function OrderDetailsPage({
   params,
