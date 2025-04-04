@@ -25,7 +25,7 @@ export default function ItemsContainer({ data }: { data: Product[] }) {
   }
 
   return (
-    <>
+    <div className="flex flex-col gap-4 mt-10">
       <SectionTitle title="Items in Order" />
 
       <OrderDetailedList
@@ -34,6 +34,6 @@ export default function ItemsContainer({ data }: { data: Product[] }) {
       {data.length > 3 ? (
         <ShowMoreBtn toggle={handleToggleBtn} currentState={showAll} />
       ) : null}
-    </>
+    </div>
   );
 }
