@@ -2,7 +2,8 @@ import { getDetailsOrder } from "@/lib/db/orders";
 import HeaderWithImgBg from "@/components/SectionTitle/HeaderWithImgBg";
 import OrdersList from "@/components/Orders/OrdersList";
 import ItemsContainer from "@/components/Items/ItemsContainer";
-
+import Link from "next/link";
+import Goback from "@/components/Nav/Goback";
 export default async function OrderDetailsPage({
   params,
 }: {
@@ -19,6 +20,7 @@ export default async function OrderDetailsPage({
     return (
       <div className="p-10 min-h-screen">
         <HeaderWithImgBg title="Order Details" />
+        <Goback gobackPath="/orders" />
         <h1 className="text-7xl verde m-auto">Error Fetching Order</h1>
       </div>
     );
@@ -27,6 +29,7 @@ export default async function OrderDetailsPage({
   return (
     <div className="p-10 min-h-screen">
       <HeaderWithImgBg title="Order Details" />
+      <Goback gobackPath="/orders" />
       <OrdersList
         showDetailsBtn={false}
         showInvoiceBtn={false}

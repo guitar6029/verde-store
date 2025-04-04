@@ -35,7 +35,7 @@ export default function OrdersList({
               <h1 className="text-2xl text-gray-400">ORDER # </h1>
               <span className="font-bold text-2xl">{orderObj.order.id}</span>
             </div>
-            <div className="flex flex-row gap-2">
+            <div className="flex flex-row gap-2 ">
               {showDetailsBtn ? (
                 <Link
                   href={`/orders/${orderObj.order.id}`}
