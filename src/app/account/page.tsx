@@ -3,7 +3,6 @@ import HeaderWithImgBg from "@/components/SectionTitle/HeaderWithImgBg";
 import { getGreeting } from "@/utils/greeting";
 import { createClient } from "@/utils/supabase/server";
 import { UserRound } from "lucide-react";
-import Link from "next/link";
 export default async function AccountClient() {
   const supabase = await createClient();
   const {
