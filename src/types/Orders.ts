@@ -1,7 +1,7 @@
 export type Order = {
     id: string;
     total_price: number;
-    status: string;
+    status: Status;
     created_at: string;
     user_id: string;
     payment_id: string;
@@ -21,3 +21,6 @@ export type Order = {
     order: Order;
     detailedOrder: DetailedOrder[];
   };
+
+
+  export type Status = "ordered" | "processed" | "shipped" | "delivered";

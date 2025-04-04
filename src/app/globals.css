@@ -163,7 +163,6 @@ main {
   );
 }
 
-
 /* bounce class with animation */
 .bounce-1 {
   animation: bounce 1s infinite 300ms;

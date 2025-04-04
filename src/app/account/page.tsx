@@ -3,6 +3,7 @@ import { getGreeting } from "@/utils/greeting";
 import { createClient } from "@/utils/supabase/server";
 import { getDetailedOrder } from "@/lib/db/orders";
 import OrdersList from "@/components/Orders/OrdersList";
+import SectionTitle from "@/components/SectionTitle/SectionTitle";
 export default async function AccountClient() {
   const supabase = await createClient();
   const {
@@ -20,7 +21,7 @@ export default async function AccountClient() {
         {getGreeting()} {user?.user_metadata?.email.split("@")[0] || "User"}!
       </h1>
       <section className="mt-10">
-        <h1 className="text-7xl verde">Orders</h1>
+        <SectionTitle title="Recent Orders" />
         <OrdersList orders={detailedOrders ?? []} errors={error} />
       </section>
     </div>

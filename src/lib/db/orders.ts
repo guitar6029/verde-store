@@ -19,7 +19,7 @@ export async function saveOrderToOrders(
       {
         id: crypto.randomUUID(),
         total_price,
-        status: "pending",
+        status: "ordered",
         created_at: new Date().toISOString(),
         guest_id: forGuests ? id : null,
         user_id: forGuests ? null : id,
