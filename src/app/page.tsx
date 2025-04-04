@@ -23,7 +23,7 @@ export default function Home() {
 
       <div className="flex flex-col gap-5 items-center z-[2] absolute bg-cyan-100 p-10 opacity-80 ">
         <h1 className="text-7xl md:text-[10rem] verde">Verde</h1>
-        <span className="text-5xl verde">Nature, Simplified.</span>
+        <span className="text-6xl verde">Nature, Simplified.</span>
         <MainLinkBtn pathUrl="/plants" linkText="Shop" />
       </div>
     </div>
