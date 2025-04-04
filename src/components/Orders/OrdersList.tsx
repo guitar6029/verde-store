@@ -9,9 +9,13 @@ import Link from "next/link";
 export default function OrdersList({
   orders,
   errors,
+  showDetailsBtn = true,
+  showInvoiceBtn = true,
 }: {
   orders: { order: Order; detailedOrder: DetailedOrder[] }[];
   errors: string | null;
+  showDetailsBtn?: boolean;
+  showInvoiceBtn?: boolean;
 }) {
   if (errors) {
     toast.error(errors ?? "Failed to get orders");
@@ -32,18 +36,22 @@ export default function OrdersList({
               <span className="font-bold text-2xl">{orderObj.order.id}</span>
             </div>
             <div className="flex flex-row gap-2">
-              <Link
-                href={`/orders/${orderObj.order.id}`}
-                className="p-4 w-full lg:w-fit rounded-xl bg-green-200 hover:bg-green-300 flex flex-row items-center justify-center transition duration-300 ease-in text-blue-600  hover:underline"
-              >
-                <span className="text-2xl">View order details</span>
-              </Link>
-              <Link
-                href={`/invoices/${orderObj.order.id}`}
-                className="p-4 w-full lg:w-fit rounded-xl bg-cyan-200 hover:bg-cyan-300 flex flex-row items-center justify-center transition duration-300 ease-in text-blue-600  hover:underline"
-              >
-                <span className="text-2xl">View invoice details</span>
-              </Link>
+              {showDetailsBtn ? (
+                <Link
+                  href={`/orders/${orderObj.order.id}`}
+                  className="p-4 w-full lg:w-fit rounded-xl bg-green-200 hover:bg-green-300 flex flex-row items-center justify-center transition duration-300 ease-in text-blue-600  hover:underline"
+                >
+                  <span className="text-2xl">View order details</span>
+                </Link>
+              ) : null}
+              {showInvoiceBtn ? (
+                <Link
+                  href={`/invoices/${orderObj.order.id}`}
+                  className="p-4 w-full lg:w-fit rounded-xl bg-cyan-200 hover:bg-cyan-300 flex flex-row items-center justify-center transition duration-300 ease-in text-blue-600  hover:underline"
+                >
+                  <span className="text-2xl">View invoice details</span>
+                </Link>
+              ) : null}
             </div>
           </div>
 
@@ -58,9 +66,7 @@ export default function OrdersList({
 
               <div className="flex flex-col gap-2">
                 <h1 className="text-2xl text-gray-400">TOTAL</h1>
-                <span className="text-2xl ">
-                  ${orderObj.order.total_price}
-                </span>
+                <span className="text-2xl ">${orderObj.order.total_price}</span>
               </div>
             </div>
           </div>

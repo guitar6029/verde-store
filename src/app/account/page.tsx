@@ -1,7 +1,7 @@
 import HeaderWithImgBg from "@/components/SectionTitle/HeaderWithImgBg";
 import { getGreeting } from "@/utils/greeting";
 import { createClient } from "@/utils/supabase/server";
-import { getDetailedOrder } from "@/lib/db/orders";
+import { getDetailedOrders } from "@/lib/db/orders";
 import OrdersList from "@/components/Orders/OrdersList";
 import SectionTitle from "@/components/SectionTitle/SectionTitle";
 export default async function AccountClient() {
@@ -12,7 +12,7 @@ export default async function AccountClient() {
 
   // get detailed orders
   if (!user) return null;
-  const { data: detailedOrders, error } = await getDetailedOrder(user?.id);
+  const { data: detailedOrders, error } = await getDetailedOrders(user?.id);
 
   return (
     <div className="p-10">
