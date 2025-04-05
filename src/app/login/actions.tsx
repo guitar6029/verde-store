@@ -1,13 +1,13 @@
 "use server";
 
 import { createClient } from "@/utils/supabase/server";
-import { LoginSchema } from "@/schemas/Login/schema";
+import { FormSchema } from "@/schemas/Form/schema";
 
 export async function login(formData: FormData) {
   const supabase = await createClient();
 
   const formEntries = Object.fromEntries(formData);
-  const parseResult = LoginSchema.safeParse(formEntries);
+  const parseResult = FormSchema.safeParse(formEntries);
 
   if (!parseResult.success) {
     console.error(parseResult.error);

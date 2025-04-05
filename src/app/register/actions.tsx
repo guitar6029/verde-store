@@ -1,13 +1,13 @@
 "use server";
 
-import { RegisterSchema } from "@/schemas/Register/schema";
+import { FormSchema } from "@/schemas/Form/schema";
 import { createClient } from "@/utils/supabase/server";
 
 export async function signup(formData: FormData) {
   const supabase = await createClient();
 
   const fromEntries = Object.fromEntries(formData);
-  const parseResult = RegisterSchema.safeParse(fromEntries);
+  const parseResult = FormSchema.safeParse(fromEntries);
 
   if (!parseResult.success) {
     console.error(parseResult.error);

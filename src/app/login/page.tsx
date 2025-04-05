@@ -1,87 +1,59 @@
 "use client";
-import { createClient } from "@/utils/supabase/client";
-import { login } from "./actions";
-import { LoginSchema } from "@/schemas/Login/schema";
-import { Session } from "@/types/Session";
+
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { login } from "./actions";
 import FormButton from "@/components/Buttons/FormButton";
 import Link from "next/link";
+import { z } from "zod";
+import { FormSchema } from "@/schemas/Form/schema";
 
 export default function LoginPage() {
-  const [session, setSession] = useState<Session | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [loginLoading, setLoginLoading] = useState<boolean>(false);
   const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { isSubmitting },
+  } = useForm();
 
-  useEffect(() => {
-    const supabase = createClient();
-
-    const checkUserSession = async () => {
-      const { data } = await supabase.auth.getSession();
-
-      if (data.session) {
-        setSession(data.session as Session);
-        router.push("/");
-      }
-      setLoading(false);
-    };
-
-    checkUserSession();
-  }, [router]);
-
-  if (loading) {
-    return null; // Optional loading spinner
-  }
-
-  if (session) {
-    return null; // Prevent rendering the login form if already logged in
-  }
-
-  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setLoginLoading(true);
-
-    const formData = new FormData(event.target as HTMLFormElement);
-    const formEntries = Object.fromEntries(formData.entries());
-
-    // Validate form data using Zod
-    const parseResult = LoginSchema.safeParse(formEntries);
-
-    if (!parseResult.success) {
-      parseResult.error.errors.forEach((err) => toast.error(err.message));
-      return;
-    }
+  const onSubmit: SubmitHandler<FieldValues> = async () => {
+    const data = getValues();
+    const formData = new FormData();
+    Object.entries(data as z.infer<typeof FormSchema>).forEach(([key, value]) =>
+      formData.append(key, value)
+    );
 
     try {
-      const { success, error: loginError } = await login(formData); // Pass FormData to the login action
+      const { success, error } = await login(formData);
       if (success) {
         toast.success("Login successful!");
         router.push("/");
       } else {
-        toast.error(loginError);
-        setLoginLoading(false);
+        toast.error(error || "Login failed. Please try again.");
       }
-    } catch (error) {
-      console.error(error);
-      setLoginLoading(false);
-      toast.error("Please try again, something went wrong.");
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong. Please try again.");
     }
   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
-      <form onSubmit={handleLogin} className="flex flex-col gap-5 w-2/4">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col gap-5 w-2/4"
+      >
         <label htmlFor="email" className="text-2xl font-semibold">
           Email
         </label>
         <input
           id="email"
-          name="email"
           type="email"
           required
           className="text-2xl font-semibold rounded-lg p-5 border-2 border-gray-300"
+          {...register("email")}
         />
 
         <label htmlFor="password" className="text-2xl font-semibold">
@@ -89,14 +61,15 @@ export default function LoginPage() {
         </label>
         <input
           id="password"
-          name="password"
           type="password"
           required
           className="text-2xl font-semibold rounded-lg p-5 border-2 border-gray-300"
+          {...register("password")}
         />
+
         <FormButton
           type="submit"
-          loading={loginLoading}
+          loading={isSubmitting} // Directly controlled by react-hook-form's state
           defaultTextState="Login"
           loadingTextState="Logging in..."
         />
