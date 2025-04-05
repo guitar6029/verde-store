@@ -1,18 +1,17 @@
 "use client";
-
+import { createClient } from "@/utils/supabase/client";
+import { login } from "./actions";
+import { LoginSchema } from "@/schemas/Login/schema";
+import { Session } from "@/types/Session";
+import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/utils/supabase/client";
+import FormButton from "@/components/Buttons/FormButton";
 import Link from "next/link";
-import { toast } from "react-toastify";
-import { login } from "./actions";
-import { Session } from "@/types/Session";
-import { LoginSchema } from "@/schemas/Login/schema";
-import LoadingSpinner from "@/components/Icons/Loading";
 
 export default function LoginPage() {
   const [session, setSession] = useState<Session | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [loginLoading, setLoginLoading] = useState<boolean>(false);
   const router = useRouter();
 
@@ -95,20 +94,12 @@ export default function LoginPage() {
           required
           className="text-2xl font-semibold rounded-lg p-5 border-2 border-gray-300"
         />
-        <button
+        <FormButton
           type="submit"
-          disabled={loginLoading}
-          className="text-5xl verde p-5 bg-green-200 hover:cursor-pointer hover:bg-green-300 transition duration-300 ease-in"
-        >
-          {loginLoading ? (
-            <div className="flex flex-row gap-4 items-center justify-center">
-              <LoadingSpinner />
-              <span>Processing...</span>
-            </div>
-          ) : (
-            "Log in"
-          )}
-        </button>
+          loading={loginLoading}
+          defaultTextState="Login"
+          loadingTextState="Logging in..."
+        />
 
         <hr />
         <div className="flex flex-col md:flex-row gap-2 md:items-center">

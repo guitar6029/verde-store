@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/utils/supabase/client"; // Make sure to create the supabase client instance
-import { signup } from "./actions"; // Import your login/signup actions
+import { createClient } from "@/utils/supabase/client";
+import { signup } from "./actions";
 import Link from "next/link";
 import { RegisterSchema } from "@/schemas/Register/schema";
 import { toast } from "react-toastify";
-import LoadingSpinner from "@/components/Icons/Loading";
+import FormButton from "@/components/Buttons/FormButton";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -84,20 +84,12 @@ export default function LoginPage() {
           required
           className="text-2xl font-semibold rounded-lg p-5 border-2 border-gray-300"
         />
-        <button
+        <FormButton
           type="submit"
-          disabled={registerLoading}
-          className="text-5xl verde p-5 bg-green-200 verde hover:cursor-pointer hover:bg-green-300 transition duration-300 ease-in"
-        >
-          {registerLoading ? (
-            <div className="flex flex-row items-center justify-center gap-4">
-              <LoadingSpinner />
-              <span>Processing ...</span>
-            </div>
-          ) : (
-            <span>Register</span>
-          )}
-        </button>
+          loading={registerLoading}
+          defaultTextState="Register"
+          loadingTextState="Registering..."
+        />
         <hr />
         <div className="flex flex-col md:flex-row md:items-center gap-5">
           <span className="text-2xl">Already have an account?</span>

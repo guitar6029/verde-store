@@ -1,7 +1,7 @@
 "use client";
 
 import { Product } from "@/types/Orders";
-import ShowMoreBtn from "../Buttons/ShowMoreBtn";
+import ShowMoreBtn from "../Buttons/ShowMoreButton";
 import OrderDetailedList from "../Orders/OrderDetailedList";
 import SectionTitle from "../SectionTitle/SectionTitle";
 import { useState } from "react";

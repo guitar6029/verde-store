@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 import Link from "next/link";
-import MainIconBtn from "../Buttons/MainIconBtn";
+import MainIconBtn from "../Buttons/MainIconButton";
 
 export default function ModalSignIn({ onClose }: { onClose: () => void }) {
   return (

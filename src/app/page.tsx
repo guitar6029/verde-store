@@ -1,4 +1,4 @@
-import MainLinkBtn from "@/components/Buttons/MainLinkBtn";
+import MainLinkBtn from "@/components/Buttons/MainLinkButton";
 import Image from "next/image";
 const plantsImage =
   "https://zrjoqoqiqwdlhbqwvxwb.supabase.co/storage/v1/object/public/verde-product-images//plants-1.jpg";

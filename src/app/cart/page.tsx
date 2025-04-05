@@ -6,7 +6,7 @@ import { Trash2 as Trash, Plus, Minus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useAccountStore } from "@/store/accountStore";
-import MainLinkBtn from "@/components/Buttons/MainLinkBtn";
+import MainLinkBtn from "@/components/Buttons/MainLinkButton";
 export default function Cart() {
   //get user from store
   const { user } = useAccountStore();

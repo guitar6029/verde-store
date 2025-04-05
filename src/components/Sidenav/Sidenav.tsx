@@ -4,7 +4,7 @@ import { ShoppingCart, Sprout, Menu, X } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import AccountLink from "../Account/AccountLink";
 import Link from "next/link";
-import MainIconBtn from "../Buttons/MainIconBtn";
+import MainIconBtn from "../Buttons/MainIconButton";
 import NavLinksItem from "../Nav/NavLinksItem";
 
 const WINDOW_SIZE = 1024;
