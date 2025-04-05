@@ -17,11 +17,16 @@ export default function OrdersList({
   showDetailsBtn?: boolean;
   showInvoiceBtn?: boolean;
 }) {
+  useEffect(() => {}, [orders]); // Runs whenever `orders` changes
+
   if (errors) {
     toast.error(errors ?? "Failed to get orders");
+    return (
+      <div>
+        <h1 className="text-2xl text-red-500">Failed to get orders</h1>
+      </div>
+    );
   }
-
-  useEffect(() => {}, [orders]); // Runs whenever `orders` changes
 
   return (
     <div className="flex flex-col">
