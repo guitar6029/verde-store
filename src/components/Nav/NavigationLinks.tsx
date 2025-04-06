@@ -1,9 +1,22 @@
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { SquareUserRound } from "lucide-react";
+import { ShoppingCart, Sprout, SquareUserRound } from "lucide-react";
 import { useAccountStore } from "@/store/accountStore"; // Import Zustand store
 import { createClient } from "@/utils/supabase/client";
-import NavLinksItem from "../Nav/NavLinksItem";
+import NavLinksItem from "./NavLinksItem";
+
+const NAV_LINKS = [
+  {
+    linkText: "Plants",
+    linkUrl: "/plants",
+    Icon: Sprout,
+  },
+  {
+    linkText: "Cart",
+    linkUrl: "/cart",
+    Icon: ShoppingCart,
+  },
+];
 
 export default function AccountLink() {
   const { user, logout } = useAccountStore(); // Access user and logout from Zustand store
@@ -25,13 +38,22 @@ export default function AccountLink() {
   return (
     <div className="flex flex-row items-center gap-2 w-[100px] justify-center">
       {user ? (
-        <div className="flex flex-col gap-5"> {/* Reduced gap from 20 to 5 for better spacing */}
+        <div className="flex flex-col gap-5">
+          {" "}
+          {/* Reduced gap from 20 to 5 for better spacing */}
+          {NAV_LINKS.map(({ linkText, linkUrl, Icon }, index) => (
+            <NavLinksItem
+              key={index}
+              linkText={linkText}
+              linkUrl={linkUrl}
+              Icon={Icon}
+            />
+          ))}
           <NavLinksItem
             linkText="Account"
             linkUrl="/account"
             Icon={SquareUserRound}
           />
-          
           <button
             onClick={handleSignOut}
             className="text-4xl group-hover:text-green-400 hover:cursor-pointer p-4 hover:bg-cyan-200 transition duration-300 ease-in text-nowrap"

@@ -1,26 +1,13 @@
 "use client";
 
-import { ShoppingCart, Sprout, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
-import AccountLink from "../Account/AccountLink";
+import NavLinks from "../Nav/NavigationLinks";
 import Link from "next/link";
 import MainIconBtn from "../Buttons/MainIconButton";
-import NavLinksItem from "../Nav/NavLinksItem";
-
 const WINDOW_SIZE = 1024;
 const tailwindClassNames = ["hidden", "absolute", "top-0", "left-0", "z-[9]"];
-const NAV_LINKS = [
-  {
-    linkText: "Plants",
-    linkUrl: "/plants",
-    Icon: Sprout,
-  },
-  {
-    linkText: "Cart",
-    linkUrl: "/cart",
-    Icon: ShoppingCart,
-  },
-];
+
 /**
  * A responsive sidebar component that is visible on larger screens and
  * hidden on smaller screens. When the window width is less than or equal to
@@ -185,17 +172,7 @@ export default function Sidenav() {
           </Link>
         </div>
 
-        {NAV_LINKS.map(({ linkText, linkUrl, Icon }, index) => (
-          <NavLinksItem
-            key={index}
-            linkText={linkText}
-            linkUrl={linkUrl}
-            Icon={Icon}
-          />
-        ))}
-
-        {/* For Account Related */}
-        <AccountLink />
+        <NavLinks />
       </div>
     </>
   );

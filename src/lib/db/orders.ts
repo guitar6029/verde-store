@@ -9,10 +9,10 @@ import { SupabaseClient } from "@supabase/supabase-js";
  * Saves an order and its associated items to the database.
  *
  * @param payment_id The payment ID associated with the order.
- * @param id The user ID or guest ID, depending on whether the order is for a guest.
+ * @param id The user ID depending on whether the order is for a guest.
  * @param items An array of Plant objects representing the items in the order.
  * @param total_price The total price of the order.
- * @param forGuests A boolean indicating if the order is for a guest.
+ 
  * @returns An object indicating the success status, the data containing order ID and order items data if successful, and an error message if any error occurs.
  */
 
@@ -20,8 +20,7 @@ export async function saveOrderToOrders(
   payment_id: string,
   id: string,
   items: Plant[],
-  total_price: number,
-  forGuests: boolean
+  total_price: number
 ) {
   const supabase = await createClient();
 
@@ -34,8 +33,7 @@ export async function saveOrderToOrders(
         total_price,
         status: "ordered",
         created_at: new Date().toISOString(),
-        guest_id: forGuests ? id : null,
-        user_id: forGuests ? null : id,
+        user_id: id,
         payment_id,
       },
     ]) // Save order without items for now
@@ -192,7 +190,11 @@ async function fetchDetailedOrder(supabase: SupabaseClient, orderId: string) {
 
   return {
     success: true,
-    data: { order: data, orderItems: orderItems, productsDetails: productsDetails },
+    data: {
+      order: data,
+      orderItems: orderItems,
+      productsDetails: productsDetails,
+    },
     error: null,
   };
 

@@ -1,7 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/utils/supabase/middleware";
 import { createClient } from "./utils/supabase/server";
-import { allowGuestAccess } from "./utils/middleware/guests";
 
 export async function middleware(request: NextRequest) {
   const supabase = await createClient();
@@ -9,26 +8,14 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  ///test purpsoe only
-  if (
-    request.nextUrl.pathname === "/api/create-payment-intent" ||
-    request.nextUrl.pathname === "/api/complete-order"
-  ) {
-    return NextResponse.next(); // Continue without redirecting
-  }
-
-  if (await allowGuestAccess(request)) {
-    return NextResponse.next();
-  }
-
-  //guest can go to / ( landing page)
-  if (request.nextUrl.pathname === "/") {
-    return NextResponse.next(); // Continue without redirecting
-  }
-
   // Redirect guests from account page to the homepage
   if (request.nextUrl.pathname === "/account" && !user) {
     return NextResponse.redirect(new URL("/", request.url));
+  }
+
+  //allow guest to register
+  if (request.nextUrl.pathname === "/register") {
+    return NextResponse.next();
   }
 
   const visited = request.cookies.get("visited")?.value;
