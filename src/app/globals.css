@@ -3,6 +3,10 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --dark-primary: #18230f;
+  --dark-secondary: #27391c;
+  --dark-tertiary: #255f38;
+  --dark-quaternary: #1f7d53;
 }
 
 html {

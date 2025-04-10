@@ -1,9 +1,9 @@
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { ShoppingCart, Sprout, SquareUserRound } from "lucide-react";
 import { useAccountStore } from "@/store/accountStore"; // Import Zustand store
 import { createClient } from "@/utils/supabase/client";
 import NavLinksItem from "./NavLinksItem";
+import SignOutBtn from "../Buttons/SignInOutBtn"; // Import SignOut button
 
 const NAV_LINKS = [
   {
@@ -54,20 +54,13 @@ export default function AccountLink() {
             linkUrl="/account"
             Icon={SquareUserRound}
           />
-          <button
-            onClick={handleSignOut}
-            className="text-4xl group-hover:text-green-400 hover:cursor-pointer p-4 hover:bg-cyan-200 transition duration-300 ease-in text-nowrap"
-          >
-            Sign Out
-          </button>
+          <SignOutBtn
+            signedIn={user ? true : false}
+            handleClick={() => handleSignOut}
+          />
         </div>
       ) : (
-        <Link
-          href="/login"
-          className="hover:text-green-400 transition duration-300 ease-in text-4xl"
-        >
-          Sign In
-        </Link>
+        <SignOutBtn signedIn={false} />
       )}
     </div>
   );
