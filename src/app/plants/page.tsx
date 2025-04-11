@@ -2,7 +2,7 @@ import Plants from "@/components/Plants/Plants";
 import HeaderWithImgBg from "@/components/SectionTitle/HeaderWithImgBg";
 import TanstackProviderWrapper from "@/components/Wrapper/TanstackProviderWrapper";
 import { getPlants } from "@/lib/db/plants";
-
+import ThemeWrapper from "@/components/Wrapper/ThemeWrapper";
 export const metadata = {
   title: "Plants",
   description: "Plants",
@@ -32,10 +32,12 @@ export default async function PageMain() {
 
   return (
     <TanstackProviderWrapper>
-      <div className="p-10 min-h-screen">
+      <ThemeWrapper>
+      <div className="p-10 min-h-screen dark:bg-black">
         <HeaderWithImgBg title="Plants" />
         <Plants plants={data} />
       </div>
+      </ThemeWrapper>
     </TanstackProviderWrapper>
   );
 }

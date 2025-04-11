@@ -6,8 +6,7 @@ type ThemeState = {
   getTheme: () => boolean;
 };
 
-//create a store to manage the theme state ( light / dark mode )
-
+// Create a store to manage the theme state (light/dark mode)
 export const useThemeStore = create<ThemeState>((set, get) => ({
   toggleTheme: false,
   toggle: () => set((state) => ({ toggleTheme: !state.toggleTheme })),

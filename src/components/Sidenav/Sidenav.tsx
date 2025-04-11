@@ -9,6 +9,7 @@ import MainIconBtn from "../Buttons/MainIconButton";
 const WINDOW_SIZE = 1024;
 const tailwindClassNames = ["hidden", "absolute", "top-0", "left-0", "z-[9]"];
 import { useThemeStore } from "@/store/themeStore";
+import { useTheme } from "next-themes";
 
 /**
  * A responsive sidebar component that is visible on larger screens and
@@ -27,8 +28,13 @@ export default function Sidenav() {
   const menuIcon = useRef<HTMLDivElement | null>(null);
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
 
+  const { theme, setTheme } = useTheme();
+
+  const handleToggle = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
+
   //import the theme store to get the theme
-  const { getTheme, toggle } = useThemeStore();
 
   // Add event listener for window resize and safely set windowWidth
   useEffect(() => {
@@ -164,34 +170,53 @@ export default function Sidenav() {
         className="absolute top-5 left-5 z-[10]"
       />
 
+      <div className="h-[400px] w-[300px] dark:bg-blue-900 bg-green-200">
+
       <div
-        ref={menu}
-        className={` ${
-          getTheme() ? "bg-black text-white" : "sidenav-gradient"
-        }   flex min-h-screen border-r-2 border-gray-200 min-w-[300px] max-width-[400px] flex-col gap-10 items-center justify-center verde`}
+          onClick={handleToggle}
+          className="flex flex-row gap-2 items-center justify-center dark:bg-[var(--dark-primary)] dark:hover:bg-[var(--dark-secondary)] text-white
+            bg-green-200 hover:bg-green-300 
+          p-5 transition duration-300 ease-in  hover:cursor-pointer"
+        >
+          {theme === "dark" ? (
+            <Moon className="w-6 h-6" />
+          ) : (
+            <Sun className="w-6 h-6" />
+          )}
+        </div>
+
+      </div>
+
+      {/* <div
+        className="
+        dark:bg-black dark:text-white bg-yellow-500 flex min-h-screen border-r-2 min-w-[300px] max-width-[400px] flex-col gap-10 items-center justify-center"
       >
         <div>
           <Link
             href={"/"}
-            className={`flex flex-row gap-2 items-center justify-center ${getTheme() ? "bg-[var(--dark-primary)] hover:bg-[var(--dark-secondary)]" : "bg-green-200 hover:bg-green-300"}  p-5 transition duration-300 ease-in  hover:cursor-pointer`}
+            className="flex flex-row gap-2 items-center justify-center dark:bg-[var(--dark-primary)] dark:hover:bg-[var(--dark-secondary)] bg-green-200 hover:bg-green-300 p-5 transition duration-300 ease-in  hover:cursor-pointer"
           >
-            <h1 className={`text-5xl font-semibold p-5 ${getTheme() ? "bg-[var(--dark-primary)]" : "bg-green-300"} `}>Verde</h1>
+            <h1 className="text-5xl font-semibold p-5 dark:bg-[var(--dark-primary)] bg-green-300">
+              Verde
+            </h1>
           </Link>
         </div>
 
         <NavLinks />
 
         <div
-          onClick={toggle}
-          className={`flex flex-row gap-2 items-center justify-center ${getTheme() ? "bg-[var(--dark-primary)] hover:bg-[var(--dark-secondary)] text-white" : "bg-green-200 hover:bg-green-300 "} p-5 transition duration-300 ease-in  hover:cursor-pointer`}
+          onClick={handleToggle}
+          className="flex flex-row gap-2 items-center justify-center dark:bg-[var(--dark-primary)] dark:hover:bg-[var(--dark-secondary)] text-white
+            bg-green-200 hover:bg-green-300 
+          p-5 transition duration-300 ease-in  hover:cursor-pointer"
         >
-          {getTheme() ? (
+          {theme === "dark" ? (
             <Moon className="w-6 h-6" />
           ) : (
             <Sun className="w-6 h-6" />
           )}
         </div>
-      </div>
+      </div> */}
     </>
   );
 }
