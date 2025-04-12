@@ -1,10 +1,11 @@
 "use client";
 
-import { Menu, X } from "lucide-react";
+import { Menu, X, Moon, Sun } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import NavLinks from "../Nav/NavigationLinks";
 import Link from "next/link";
 import MainIconBtn from "../Buttons/MainIconButton";
+import { useTheme } from "next-themes";
 const WINDOW_SIZE = 1024;
 const tailwindClassNames = ["hidden", "absolute", "top-0", "left-0", "z-[9]"];
 
@@ -24,7 +25,7 @@ export default function Sidenav() {
   const menu = useRef<HTMLDivElement>(null);
   const menuIcon = useRef<HTMLDivElement | null>(null);
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
-
+  const { theme, setTheme } = useTheme();
   // Add event listener for window resize and safely set windowWidth
   useEffect(() => {
     const handleResize = () => {
@@ -161,7 +162,7 @@ export default function Sidenav() {
 
       <div
         ref={menu}
-        className=" sidenav-gradient flex min-h-screen border-r-2 border-gray-200 min-w-[300px] max-width-[400px] flex-col gap-10 items-center justify-center verde"
+        className="bg-[linear-gradient(171deg,rgba(255,226,226,1)_2%,rgba(220,252,231,1)_98%)] dark:bg-[linear-gradient(171deg,rgba(31,41,55,1)_2%,rgba(17,24,39,1)_98%)] flex min-h-screen border-r-2 border-gray-200 min-w-[300px] max-width-[400px] flex-col gap-10 items-center justify-center verde"
       >
         <div>
           <Link
@@ -173,6 +174,25 @@ export default function Sidenav() {
         </div>
 
         <NavLinks />
+
+        {/* set theme */}
+        <div>
+          {theme === "dark" ? (
+            <MainIconBtn
+              size={30}
+              Icon={Sun}
+              handleEvent={() => setTheme("light")}
+              className="hover:cursor-pointer p-5 dark:bg-cyan-950 dark:text-white rounded-full dark:hover:bg-cyan-900 transition duration-300 ease-in"
+            />
+          ) : (
+            <MainIconBtn
+              size={30}
+              Icon={Moon}
+              handleEvent={() => setTheme("dark")}
+              className="hover:cursor-pointer p-5 bg-cyan-100 rounded-full hover:bg-cyan-200 transition duration-300 ease-in"
+            />
+          )}
+        </div>
       </div>
     </>
   );

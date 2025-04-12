@@ -56,7 +56,7 @@ export default function AccountLink() {
           />
           <button
             onClick={handleSignOut}
-            className="text-4xl group-hover:text-green-400 hover:cursor-pointer p-4 hover:bg-cyan-200 transition duration-300 ease-in text-nowrap"
+            className="dark:text-white text-4xl dark:hover:bg-black group-hover:text-green-400 hover:cursor-pointer p-4 hover:bg-cyan-200 transition duration-300 ease-in text-nowrap"
           >
             Sign Out
           </button>
@@ -64,7 +64,7 @@ export default function AccountLink() {
       ) : (
         <Link
           href="/login"
-          className="hover:text-green-400 transition duration-300 ease-in text-4xl"
+          className="dark:text-white hover:text-green-400 transition duration-300 ease-in text-4xl"
         >
           Sign In
         </Link>

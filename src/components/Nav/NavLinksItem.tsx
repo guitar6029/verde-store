@@ -21,7 +21,7 @@ export default function NavLinksItem({
     <div className="flex flex-row items-center gap-2 w-[100px] justify-center group">
       <Link
         href={linkUrl}
-        className={`flex flex-row gap-2 items-center group-hover:text-green-400 transition duration-300 ease-in ${pathname === linkUrl ? "text-green-400" : ""}`}
+        className={`dark:text-white flex flex-row gap-2 items-center group-hover:text-green-400 transition duration-300 ease-in ${pathname === linkUrl ? "text-green-400" : ""}`}
       >
         {Icon && <Icon size={30} />}
 

@@ -32,7 +32,7 @@ export default async function PageMain() {
 
   return (
     <TanstackProviderWrapper>
-      <div className="p-10 min-h-screen">
+      <div className="p-10 min-h-screen dark:bg-black">
         <HeaderWithImgBg title="Plants" />
         <Plants plants={data} />
       </div>
