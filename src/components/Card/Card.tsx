@@ -10,7 +10,7 @@ export default function Card(props: ItemCardProp) {
   useEffect(() => {}, [props.isFavorited]);
 
   return (
-    <div className="p-10 h-[40rem] flex flex-col gap-5 justify-around shadow-xl shadow-neutral-200 hover:shadow-neutral-400 transition duration-300 ease-in hover:bg-neutral-100">
+    <div className="p-10 h-[40rem] flex flex-col gap-5 justify-around shadow-xl dark:shadow-neutral-800 dark:hover:shadow-neutral-900 shadow-neutral-200 hover:shadow-neutral-400 transition duration-300 ease-in hover:bg-neutral-100">
       <div>
         <Link
           href={`/plants/${props.id}`}
